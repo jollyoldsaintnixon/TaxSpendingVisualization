@@ -1,4 +1,4 @@
-import bf_array from './federal_object_array'
+// import bf_array from './federal_object_array'
 
 // CIRCLE TIME BABY
 const section = document.createElement('section')
@@ -8,8 +8,7 @@ const margin = {top: 20, right: 20, bottom: 20, left: 20},
     width = 500 - margin.left - margin.right,
     radius = width/2;
 
-// const color = d3.scaleOrdinal()
-//     .range(['dark-blue', 'blue', 'light-blue'])
+const colors = d3.scaleOrdinal(d3.schemeDark2);
 
 // arc generator
 const arc = d3.arc()
@@ -24,47 +23,56 @@ const lableArc = d3.arc()
 // pie generator
 const pie = d3.pie()
     .sort(null)
-    .value(d => d["amount"]);
+    .value(d => d.amount);
 
 // define svg 
-const svg = d3.select("section").append("svg")
+const svg = d3.select("svg")
     .attr("width", width)
     .attr("height", height)
     .append("g")
     .attr("transform", "translate(" + width/2 + "," + height/2 + ")");
 
 // import data
+d3.csv("./src/assets/data/california_2019.csv").then(function(data) {   
+    // parse
+    data.forEach(d => {
+        d.sector = d.StateAgencies;
+        d.amount = +d.TotalStateFunds;
+    })
+    // append g elements arc
+    const g = svg.selectAll(".arc")
+        .data(pie(data))
+        .enter().append("g")
+        .attr("class", "arc");
+
+        // append the path of the arc
+    g.append("path")
+        .attr("d", arc)
+        .style("fill", d => colors(d.data.sector))
+
+    g.append("text")
+        .style("fill", d => "pink")
+        // .ease(d3.easeLinear)
+        // .duration(2000)
+        .attr("transform", d => {return "translate(" + lableArc.centroid(d) + ")";})
+        .attr("dy", ".5em")
+        .text(d => d.data.sector)
+        .style("display", "block")
+}).catch(error => { if (error) throw error})
 
 
-// append g elements arc
-const g = svg.selectAll(".arc")
-    .data(pie(bf_array))
-    .enter().append("g")
-    .attr("class", "arc");
-
-// append the path of the arc
-g.append("path")
-    .attr("d", arc)
-    .style("fill", d => color(d.data["name"]))
     // .ease(d3.easeLinear)
     // .duration(2000)
     // .attrTween("d", pieTween)
 
 // append labels
-g.append("text")
-    .style("fill", d => "blue")
-    // .ease(d3.easeLinear)
-    // .duration(2000)
-    .attr("transform", d => {return "translate(" + lableArc.centroid(d) + ")";})
-    .attr("dy", ".5em")
-    .text(d => d.data["name"])
     
 const pieTween = b => {
     b.innerRadius = 0;
     const i = d3.interpolate({startAngle: 0, endAndle: 0}, b)
     return (t) => { return arc(i(t))}
 }    
-export default section
+// export default svg
 
 // let total = 0
 // let bf_array = []

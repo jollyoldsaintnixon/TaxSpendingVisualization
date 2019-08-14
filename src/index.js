@@ -1,8 +1,8 @@
 
-import section from './components/pie_chart'
+// import svg from './components/pie_chart'
 
 // console.log(total)
 document.addEventListener("DOMContentLoaded", () => {
     const root = document.getElementById("root")
-    root.appendChild(section)
+    // root.appendChild(svg)
 })
