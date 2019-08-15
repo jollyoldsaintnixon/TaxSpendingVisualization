@@ -6,7 +6,7 @@ document.addEventListener("DOMContentLoaded", () => {
     debugger
     window.PieChartGenerator = PieChartGenerator
     // PCG -> csvPath, sector, amout, location, multiplier, skip
-    window.chapel_hill = ["./src/assets/data/NC_Budget_Data_FY2018-Update.csv"]
+    window.chapel_hill = ["./src/assets/data/chapel_hill_2016.csv", 'function', 'revised_budget', 'C-Thrill']
     window.nc = ["./src/assets/data/NC_Budget_Data_FY2018-Update.csv", "Committee", "Appropriations", "North Carolina", 1, 3]
     window.cali = ["./src/assets/data/california_2019.csv", "StateAgencies", "TotalStateFunds", "California", 1000]
     const root = document.getElementById("root")

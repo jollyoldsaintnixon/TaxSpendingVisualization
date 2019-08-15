@@ -46,3 +46,4 @@ Phase 3) (2-3 days)
   NC: https://www.nc.gov/government/open-budget/bulk-download
   CA: http://www.ebudget.ca.gov/budget/2019-20EN/#/BudgetDetail
   Chapel Hill: https://catalog.data.gov/dataset/budget-and-actuals
+  Ultimate Revenue 2018: https://www.census.gov/data/tables/2018/econ/stc/2018-annual.html
