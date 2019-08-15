@@ -25,7 +25,7 @@ const lableArc = d3.arc()
 // pie generator
 const pie = d3.pie()
     // .sort(null)
-    .value(d => d.amount);
+    .value(d => d.value);
 
 // define svg 
 const svg = d3.select("svg")
@@ -40,13 +40,15 @@ const svg = d3.select("svg")
 d3.csv("./src/assets/data/NC_Budget_Data_FY2018-Update.csv").then(function (data) {
     // parse
 
-    data.forEach(d => {
-        d.sector = d.Committee;
-        d.amount = +d.Appropriations;
-        TOTAL += +d.Appropriations;
+    data.forEach((d, i) => {
+        if (i % 3 === 0) {
+            d.sector = d.Committee;
+            d.amount = parseFloat(d.Appropriations.split(',').join(''));
+            TOTAL += parseFloat(d.Appropriations.split(',').join(''));
+        }
     })
 
-    console.log(TOTAL)
+    console.log(d3.format(',')(TOTAL))
     // attempt to nest
     const nestedData = d3.nest()
         .key(d => d.sector)
@@ -54,7 +56,7 @@ d3.csv("./src/assets/data/NC_Budget_Data_FY2018-Update.csv").then(function (data
             return d3.sum(v, d => d.amount)
         })
         .entries(data)
-        
+
     console.log(JSON.stringify(nestedData))
     // append g elements arc
     const g = svg.selectAll(".arc")
@@ -68,11 +70,11 @@ d3.csv("./src/assets/data/NC_Budget_Data_FY2018-Update.csv").then(function (data
     // append the path of the arc
     g.append("path")
         .attr("d", arc)
-        .style("fill", d => colors(d.data.sector))
+        .style("fill", d => colors(d.data.key))
         .on("mouseover", ele => {
             console.log(ele)
-            h1.text(ele.data.sector + " accounts for $" + ele.data.amount + " out of $" + TOTAL)
-            h2.text("This is " + String((ele.data.amount / TOTAL) * 100).slice(0, 5) + "% of the total")
+            h1.text(ele.data.key + " accounts for $" + ele.data.value + " out of $" + TOTAL)
+            h2.text("This is " + String((ele.data.value / TOTAL) * 100).slice(0, 5) + "% of the total")
         })
         .on("mouseout", ele => {
             h1.text("California's total budget for 2019 was $" + TOTAL)
@@ -85,7 +87,7 @@ d3.csv("./src/assets/data/NC_Budget_Data_FY2018-Update.csv").then(function (data
         // .duration(2000)
         .attr("transform", d => { return "translate(" + lableArc.centroid(d) + ")"; })
         .attr("dy", ".5em")
-        .text(d => d.data.sector)
+        .text(d => d.data.key)
         .style("width", "fit-content")
         .style("z-index", "1")
     // .ease(d3.easeLinear)
@@ -95,9 +97,6 @@ d3.csv("./src/assets/data/NC_Budget_Data_FY2018-Update.csv").then(function (data
 
 })
     .catch(error => { if (error) throw error })
-    .then(() => {
-        const all = d3.selectAll('g')
-    })
 
 
 const h1 = d3.select("main")
