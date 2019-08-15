@@ -1,7 +1,8 @@
 // A lot of this code was based heavily off of Karthik Thota's youtube tutorial "Introduction to d3.js = Pie Chart and Donut Chart"
 // Many other videos and static resources were used, but this one had the most influence on the code by far.
 
-export function PieChartGenerator(csvPath, sector, amount, state, multiplier = 1, skip = 1) {
+// export function PieChartGenerator(csvPath, sector, amount, state, multiplier = 1, skip = 1) {
+export function PieChartGenerator(csvPath, state) {
 
     let TOTAL = 0;
     // CIRCLE TIME BABY
@@ -43,17 +44,17 @@ export function PieChartGenerator(csvPath, sector, amount, state, multiplier = 1
 
         data.forEach((d, i) => {
             debugger
-            if (i % skip === 0) {
-                d.sector = d[sector];
-                d.amount = parseFloat(d[amount].split(',').join('')) * multiplier;
-                TOTAL += parseFloat(d[amount].split(',').join('')) * multiplier;
-            }
+            // if (i % skip != 0) { continue }
+            const amount = d.AMOUNT.split(',').join('');
+            d.sector = d.Tax_Type;
+            d.amount = amount
+            TOTAL += amount;
         })
 
         console.log(d3.format(',')(TOTAL))
         // attempt to nest
         const nestedData = d3.nest()
-            .key(d => d.sector)
+            .key(d => d.Geo_Name)
             .rollup(v => {
                 return d3.sum(v, d => d.amount)
             })
