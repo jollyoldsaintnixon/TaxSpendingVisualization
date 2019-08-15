@@ -41,15 +41,24 @@ d3.csv("./src/assets/data/NC_Budget_Data_FY2018-Update.csv").then(function (data
     // parse
 
     data.forEach(d => {
-        d.sector = d.StateAgencies;
-        d.amount = +d.TotalStateFunds;
-        TOTAL += +d.TotalStateFunds;
+        d.sector = d.Committee;
+        d.amount = +d.Appropriations;
+        TOTAL += +d.Appropriations;
     })
 
     console.log(TOTAL)
+    // attempt to nest
+    const nestedData = d3.nest()
+        .key(d => d.sector)
+        .rollup(v => {
+            return d3.sum(v, d => d.amount)
+        })
+        .entries(data)
+        
+    console.log(JSON.stringify(nestedData))
     // append g elements arc
     const g = svg.selectAll(".arc")
-        .data(pie(data))
+        .data(pie(nestedData))
 
         // g.exit().remove();  // Throwing this line in to account for there being more g's than the current data set accounts for
 

@@ -40,3 +40,7 @@ Phase 3) (2-3 days)
 ## Bonus Feature
   
   Federal data and at least 3 states must be implemented in order for the beta to be released.  Any other state, territory, or city will follow in the bonus features.  Normalization of state and local spending categories will help with comparison.
+
+### Resources
+
+  NC: https://www.nc.gov/government/open-budget/bulk-download
