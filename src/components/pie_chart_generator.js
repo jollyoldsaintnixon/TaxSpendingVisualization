@@ -1,5 +1,8 @@
 // A lot of this code was based heavily off of Karthik Thota's youtube tutorial "Introduction to d3.js = Pie Chart and Donut Chart"
 // The legend code was from Crypters Infotech's youtube tutorial "Pie Chart using D3.js"
+
+import { assignBox } from './helper_functions'
+
 export const COLORS = ["#a6751e", "#e7ab04", "#66a51e", "#7470b3", "#e82b8a"]
 // export const LABELS = ["Property Taxes", "Sales and Gross Receipts Taxes", "License Taxes", "Income Taxes", "Other Taxes"]
 export const LABELS = ["Other Taxes", "Income Taxes", "License Taxes", "Property Taxes", "Sales Taxes"]
@@ -53,15 +56,21 @@ export function PieChartGenerator(state, tax_type, pie_num) {
                 }
                 
                 if (tax_type.includes(d.item)) {
-                    TYPES.push({
-                        key: d.Tax_Type,
-                        amount: d.AMOUNT.split(',').join('') * 1000
-                    }) 
+                    if (d.item != 'T00') {
+                        TYPES.push({
+                            key: d.Tax_Type,
+                            amount: d.AMOUNT === 'X' ? 0 : d.AMOUNT.split(',').join('') * 1000,
+                            percent: ((d.AMOUNT === 'X' ? 0 : d.AMOUNT.split(',').join('') * 1000) / TOTAL) * 100
+                        }) 
+                    }
                     d.key = d.Tax_Type;
-                    d.amount = d.AMOUNT.split(',').join('') * 1000;
+                    d.amount = d.AMOUNT === 'X' ? 0 : d.AMOUNT.split(',').join('') * 1000;
+                    d.percent = ((d.AMOUNT === 'X' ? 0 : d.AMOUNT.split(',').join('') * 1000) / TOTAL) * 100;
                 }
             }
         })
+
+        assignBox(TYPES, pie_num)
 
         const g = svg.selectAll(".arc")
             .data(pie(data))

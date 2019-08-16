@@ -1,0 +1,38 @@
+.selector-container {
+    display: flex;
+    width: 620px;
+    justify-content: space-between;
+}
+
+.master-list {
+    position: absolute;
+    z-index: 3;
+    top: 184px;
+    left: 249px;
+    display: flex;
+}
+
+.master-list li {
+    margin: 10px;
+}
+
+.text-list {
+
+}
+
+.text-box {
+    text-align: center;
+    display: block;
+    width: 145px;
+    height: 30px;
+    font-size: 1.2em;
+    padding: 2px;
+    font-family: var(--sans)
+}
+
+.box {
+    border: 1px solid red;
+    width: 30px;
+    height: 30px;
+    margin: 0 5px;
+}

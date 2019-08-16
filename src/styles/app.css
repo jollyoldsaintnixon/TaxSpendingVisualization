@@ -1,6 +1,14 @@
 :root {
     --sans: 'Lato', sans-serif;
     --serif: 'Merriweather', serif;
+    --full: 620px;
+}
+
+.headline {
+    width: 620px;
+    text-align: center;
+    font-family: var(--sans);
+    font-size: 3em;
 }
 
 main {
@@ -35,3 +43,11 @@ body {
     border: 1px solid red;
 }
 
+.state-name {
+    display: flex;
+    width: var(--full);
+    justify-content: space-around;
+    font-size: 2em;
+    font-family: var(--sans);
+    text-decoration: underline;
+}
