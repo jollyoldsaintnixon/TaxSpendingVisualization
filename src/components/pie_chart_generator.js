@@ -1,10 +1,13 @@
 // A lot of this code was based heavily off of Karthik Thota's youtube tutorial "Introduction to d3.js = Pie Chart and Donut Chart"
-// Many other videos and static resources were used, but this one had the most influence on the code by far.
-
+// The legend code was from Crypters Infotech's youtube tutorial "Pie Chart using D3.js"
+export const COLORS = ["#a6751e", "#e7ab04", "#66a51e", "#7470b3", "#e82b8a"]
+// export const LABELS = ["Property Taxes", "Sales and Gross Receipts Taxes", "License Taxes", "Income Taxes", "Other Taxes"]
+export const LABELS = ["Other Taxes", "Income Taxes", "License Taxes", "Property Taxes", "Sales and Gross Receipts Taxes"]
 // export function PieChartGenerator(csvPath, sector, amount, state, multiplier = 1, skip = 1) {
-export function PieChartGenerator(state, tax_type) {
+export function PieChartGenerator(state, tax_type, pie_num) {
 
     let TOTAL = 0;
+    let TYPES = []
     // CIRCLE TIME BABY
     // margin and radius
     const margin = { top: 200, right: 200, bottom: 200, left: 200 },
@@ -20,9 +23,9 @@ export function PieChartGenerator(state, tax_type) {
         // .innerRadius(0); // for circle
         .innerRadius(radius - 100) // for donut
 
-    const lableArc = d3.arc()
-        .outerRadius(radius - 50)
-        .innerRadius(radius - 50);
+    // const lableArc = d3.arc()
+    //     .outerRadius(radius - 50)
+    //     .innerRadius(radius - 50);
 
     // pie generator
     const pie = d3.pie()
@@ -30,79 +33,78 @@ export function PieChartGenerator(state, tax_type) {
         .value(d => d.amount);
 
     // define svg 
-    const svg = d3.select("main").append("svg")
-        .attr("id", "svg")
+    const svg = d3.select(".pie-" + pie_num).append("svg")
+        .attr("id", "svg-" + pie_num)
+        .attr("class", "svg-" + pie_num)
         .attr("width", width)
         .attr("height", height)
-        .style("display", "flex")
-        .style("background", "yellow")
         .append("g")
-        .attr("transform", "translate(" + width / 2 + "," + height / 2 + ")");
+        .attr("transform", "translate(" + width / 2 + "," + height / 2 + ")")
 
     // import data
     d3.csv("./src/assets/data/FY2018_tax_revenue_detailed.csv").then(function (data) {
         // parse
 
         data.forEach((d, i) => {
-            debugger
+            
             if (d.Geo_Name === state) {
                 if (d.item === "T00") {
                     TOTAL = d.AMOUNT.split(',').join('') * 1000;
                 }
-                if (tax_type.includes(d.item)) { 
+                
+                if (tax_type.includes(d.item)) {
+                    TYPES.push({
+                        key: d.Tax_Type,
+                        amount: d.AMOUNT.split(',').join('') * 1000
+                    }) 
                     d.key = d.Tax_Type;
                     d.amount = d.AMOUNT.split(',').join('') * 1000;
                 }
             }
         })
 
-        console.log(d3.format(',')(TOTAL))
-        // attempt to nest
-        const nestedData = d3.nest()
-            .key(d => d.Geo_Name)
-            .rollup(v => {
-                return d3.sum(v, d => d.amount)
-            })
-            .entries(data)
-
-        console.log(JSON.stringify(nestedData))
-        // append g elements arc
         const g = svg.selectAll(".arc")
             .data(pie(data))
-
-            // g.exit().remove();  // Throwing this line in to account for there being more g's than the current data set accounts for
-
             .enter().append("g")  // And this line to grow the number of g's to the data set size
-            .attr("class", "arc");
-
+            .attr("class", "arc")
+            .style("display", (d, i) => d.value === TOTAL ? "none" : "null");  // attempt to render half the chart invisible
+            
         // append the path of the arc
         g.append("path")
             .attr("d", arc)
             .style("fill", d => colors(d.data.key))
-            .on("mouseover", ele => {
-                console.log(ele)
-                h1.text(ele.data.key + " accounts for $" + d3.format(',')(ele.data.amount) + " out of $" + d3.format(',')(TOTAL))
-                h2.text("This is " + String((ele.data.amount / TOTAL) * 100).slice(0, 5) + "% of the total")
-            })
-            .on("mouseout", ele => {
-                h1.text(state + "'s tax revenue for 2019 was $" + d3.format(',')(TOTAL))
-                h2.text("")
-            });
 
-        g.append("text")
-            .style("fill", d => "black")
-            // .ease(d3.easeLinear)
-            // .duration(2000)
-            .attr("transform", d => { return "translate(" + lableArc.centroid(d) + ")"; })
-            .attr("dy", ".5em")
-            .text(d => d.data.key)
-            .style("width", "fit-content")
-            .style("z-index", "1")
-        // .ease(d3.easeLinear)
-        // .duration(2000)
-        // .attrTween("d", pieTween)
+        if (pie_num === 2) {// flip the second pie
+            g.style("transform", "scaleX(-1)");
+        }
+        // event handlers
+        g.on("mouseover", ele => {
+            console.log(ele)
+            h1.text(ele.data.key + " accounts for $" + d3.format(',')(ele.data.amount) + " out of $" + d3.format(',')(TOTAL))
+            h2.text("This is " + String((ele.data.amount / TOTAL) * 100).slice(0, 5) + "% of the total")
+        })
+        .on("mouseout", ele => {
+            h1.text(state + "'s tax revenue for 2019 was $" + d3.format(',')(TOTAL))
+            h2.text("")
+        });
 
+        const legends = svg.append("g").attr("transform", "translate(0, -50)")
+            .selectAll(".legends").data(TYPES);
 
+        const legend = legends.enter().append("g").classed("legends", true).attr("transform", (d , i) => "translate(0," + (i+1) * 30 +  ")");
+        legend.append("rect")
+            .attr("width", 20)
+            .attr("height", 20);
+
+        debugger
+        legend.attr("fill", (d, i) => i ? COLORS[i - 1] : null)
+            .attr("display", (d, i) => i ? "null" : "none")
+
+        legend.append("text").classed("label", true).text((d, i) => LABELS[i-1])
+            .attr("fill", (d, i) => i ? COLORS[i - 1] : null)
+            .attr("x", 30)
+            .attr("y", 20)
+            
     })
         .catch(error => { if (error) throw error })
 

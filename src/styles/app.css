@@ -1,0 +1,27 @@
+
+
+.pie-container {
+    display: flex;
+}
+
+.svg-1 {
+    width: 300px;
+    z-index: 2;
+}
+
+.arc {
+    z-index: 1;
+} 
+
+.svg-2 {
+    position: relative;
+    left: -280px;
+}
+
+body {
+    background: blue;
+}
+
+.label {
+    z-index: 1;
+}
