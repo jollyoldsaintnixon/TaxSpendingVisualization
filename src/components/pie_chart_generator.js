@@ -2,7 +2,7 @@
 // The legend code was from Crypters Infotech's youtube tutorial "Pie Chart using D3.js"
 export const COLORS = ["#a6751e", "#e7ab04", "#66a51e", "#7470b3", "#e82b8a"]
 // export const LABELS = ["Property Taxes", "Sales and Gross Receipts Taxes", "License Taxes", "Income Taxes", "Other Taxes"]
-export const LABELS = ["Other Taxes", "Income Taxes", "License Taxes", "Property Taxes", "Sales and Gross Receipts Taxes"]
+export const LABELS = ["Other Taxes", "Income Taxes", "License Taxes", "Property Taxes", "Sales Taxes"]
 // export function PieChartGenerator(csvPath, sector, amount, state, multiplier = 1, skip = 1) {
 export function PieChartGenerator(state, tax_type, pie_num) {
 
@@ -88,22 +88,32 @@ export function PieChartGenerator(state, tax_type, pie_num) {
             h2.text("")
         });
 
-        const legends = svg.append("g").attr("transform", "translate(0, -50)")
-            .selectAll(".legends").data(TYPES);
-
-        const legend = legends.enter().append("g").classed("legends", true).attr("transform", (d , i) => "translate(0," + (i+1) * 30 +  ")");
-        legend.append("rect")
-            .attr("width", 20)
-            .attr("height", 20);
-
-        debugger
-        legend.attr("fill", (d, i) => i ? COLORS[i - 1] : null)
-            .attr("display", (d, i) => i ? "null" : "none")
-
-        legend.append("text").classed("label", true).text((d, i) => LABELS[i-1])
-            .attr("fill", (d, i) => i ? COLORS[i - 1] : null)
-            .attr("x", 30)
-            .attr("y", 20)
+        // if (pie_num === 2) {
+        //     const legends = svg.append("g").attr("transform", "translate(-63, -128)")
+        //         .selectAll(".legends").data(TYPES);
+    
+        //     const legend = legends.enter().append("g").classed("legends", true).attr("transform", (d , i) => "translate(0," + (i+1) * 30 +  ")");
+        //     legend.append("rect")
+        //         .attr("width", 20)
+        //         .attr("height", 20);
+    
+        //     debugger
+        //     legend.style("stroke", (d, i) => i ? COLORS[i - 1] : null)
+        //         .style("fill", "transparent")
+        //         .style("display", (d, i) => i ? "null" : "none")
+    
+        //     // legend.append("text").classed("label", true).text((d, i) => LABELS[i-1])
+        //     //     .attr("fill", (d, i) => i ? COLORS[i - 1] : null)
+        //     //     .attr("x", 30)
+        //     //     .attr("y", 20)
+        //     //     .attr("border", (d, i) => "3px solid " + COLORS[i - 1])
+        //     legend.append("text").classed("label", true).text((d, i) => LABELS[i-1])
+        //         .style("stroke", "none")
+        //         .attr("fill", (d, i) => i ? COLORS[i - 1] : null)
+        //         .attr("x", 30)
+        //         .attr("y", 20)
+        //         .attr("border", (d, i) => "3px solid " + COLORS[i - 1])
+        // }
             
     })
         .catch(error => { if (error) throw error })

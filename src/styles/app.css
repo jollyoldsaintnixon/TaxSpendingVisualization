@@ -1,4 +1,11 @@
+:root {
+    --sans: 'Lato', sans-serif;
+    --serif: 'Merriweather', serif;
+}
 
+main {
+    position: relative;
+}
 
 .pie-container {
     display: flex;
@@ -6,6 +13,7 @@
 
 .svg-1 {
     width: 300px;
+    position: relative;
     z-index: 2;
 }
 
@@ -24,4 +32,6 @@ body {
 
 .label {
     z-index: 1;
+    border: 1px solid red;
 }
+
