@@ -9,10 +9,18 @@
     text-align: center;
     font-family: var(--sans);
     font-size: 3em;
+    color: white;
 }
 
 main {
+    display: flex;
+    margin: 0 auto;
+    background: hotpink;
+    width: 1000px;
     position: relative;
+    flex-direction: column;
+    align-items: center;
+    min-width: 1000px;
 }
 
 .pie-container {
@@ -20,18 +28,21 @@ main {
 }
 
 .svg-1 {
+    left: 140px;
     width: 300px;
     position: relative;
     z-index: 2;
+    background: transparent;
 }
 
 .arc {
-    z-index: 1;
+    position: relative;
+    z-index: 2;
 } 
 
 .svg-2 {
     position: relative;
-    left: -280px;
+    left: 160px;
 }
 
 body {
@@ -44,6 +55,7 @@ body {
 }
 
 .state-name {
+    color: white;
     display: flex;
     width: var(--full);
     justify-content: space-around;

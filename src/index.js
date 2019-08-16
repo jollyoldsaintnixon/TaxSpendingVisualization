@@ -18,6 +18,6 @@ document.addEventListener("DOMContentLoaded", () => {
     selector_container.appendChild(select_2)
     root.appendChild(ul)
 
-    PieChartGenerator('Alabama', TOP_LEVEL, 1)
-    PieChartGenerator("Alabama", TOP_LEVEL, 2)
+    PieChartGenerator("Alabama", TOP_LEVEL, 1)
+    PieChartGenerator("Wyoming", TOP_LEVEL, 2)
 })

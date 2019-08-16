@@ -9,6 +9,29 @@ export const LABELS = ["Other Taxes", "Income Taxes", "License Taxes", "Property
 // export function PieChartGenerator(csvPath, sector, amount, state, multiplier = 1, skip = 1) {
 export function PieChartGenerator(state, tax_type, pie_num) {
 
+    const remove = document.getElementById("totals-" + pie_num)
+    remove ? remove.parentNode.removeChild(remove) : null
+
+    const remove2 = document.getElementById("totals-" + pie_num)
+    remove2 ? remove2.parentNode.removeChild(remove2) : null
+
+
+    const div = d3.select("#totals")
+        .append("div")
+        .attr("class", "totals-" + pie_num)
+        .attr("id", "totals-" + pie_num)
+
+    const h1 = div
+        .append("h1")
+        // .attr('id', 'revenue-' + pie_num)
+
+    const span = div
+        .append("span")
+
+    const h2 = d3.select("#details")
+        .append("h2")
+        // .attr('id', 'percent-' + pie_num)
+
     let TOTAL = 0;
     let TYPES = []
     // CIRCLE TIME BABY
@@ -17,6 +40,8 @@ export function PieChartGenerator(state, tax_type, pie_num) {
         height = 1000 - margin.top - margin.bottom,
         width = 1000 - margin.left - margin.right,
         radius = width / 2;
+
+
 
     const colors = d3.scaleOrdinal(d3.schemeDark2);
 
@@ -39,6 +64,7 @@ export function PieChartGenerator(state, tax_type, pie_num) {
     const svg = d3.select(".pie-" + pie_num).append("svg")
         .attr("id", "svg-" + pie_num)
         .attr("class", "svg-" + pie_num)
+        .attr("position", "relative")
         .attr("width", width)
         .attr("height", height)
         .append("g")
@@ -70,6 +96,11 @@ export function PieChartGenerator(state, tax_type, pie_num) {
             }
         })
 
+        // set h1 after total has been defined
+        h1.text(state + "'s tax revenue for 2018 was ")
+        span.text("$" + d3.format(',')(TOTAL))
+        h2.text("")
+        // set up the percentages in the center box
         assignBox(TYPES, pie_num)
 
         const g = svg.selectAll(".arc")
@@ -82,19 +113,27 @@ export function PieChartGenerator(state, tax_type, pie_num) {
         g.append("path")
             .attr("d", arc)
             .style("fill", d => colors(d.data.key))
+            .transition()
+            .ease(d3.easeLinear)
+            .duration(500)
+            .attrTween('d', pieTween);
 
         if (pie_num === 2) {// flip the second pie
-            g.style("transform", "scaleX(-1)");
+            g.attr("position", "absolute")
+            g.style("transform", "scaleX(-1) translate(300px, 0px)");
+            debugger
+
+            debugger
         }
         // event handlers
         g.on("mouseover", ele => {
-            console.log(ele)
-            h1.text(ele.data.key + " accounts for $" + d3.format(',')(ele.data.amount) + " out of $" + d3.format(',')(TOTAL))
-            h2.text("This is " + String((ele.data.amount / TOTAL) * 100).slice(0, 5) + "% of the total")
+            // console.log(ele)
+            // h1.text(ele.data.key + " accounts for $" + d3.format(',')(ele.data.amount) + " out of $" + d3.format(',')(TOTAL))
+            // h2.text("This is " + String((ele.data.amount / TOTAL) * 100).slice(0, 5) + "% of the total")
         })
         .on("mouseout", ele => {
-            h1.text(state + "'s tax revenue for 2019 was $" + d3.format(',')(TOTAL))
-            h2.text("")
+            // h1.text(state + "'s tax revenue for 2018 was $" + d3.format(',')(TOTAL))
+            // h2.text("")
         });
 
         // if (pie_num === 2) {
@@ -127,16 +166,11 @@ export function PieChartGenerator(state, tax_type, pie_num) {
     })
         .catch(error => { if (error) throw error })
 
-
-    const h1 = d3.select("main")
-        .append("h1")
-
-    const h2 = d3.select("main")
-        .append("h2")
-
     const pieTween = b => {
         b.innerRadius = 0;
         const i = d3.interpolate({ startAngle: 0, endAngle: 0 }, b)
         return (t) => { return arc(i(t)) }
     }    
+
+
 }

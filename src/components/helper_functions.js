@@ -3,7 +3,7 @@
 export const assignBox = (array_of_objs, pie_num) => {
     const side = pie_num === 1 ? 'left-box-' : 'right-box-'
     array_of_objs.forEach((obj) => {
-        debugger
+        
         let i = 4;
         switch (obj.key) {
             case "Other Taxes":

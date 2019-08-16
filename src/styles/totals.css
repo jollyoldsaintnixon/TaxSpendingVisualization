@@ -1,0 +1,39 @@
+.totals {
+    display: flex;
+    color: white;
+    justify-content: center;
+    width: 100%;
+    font-family: var(--sans);
+    font-size: 1.2em;
+}
+
+[class*="totals-"] {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+[class*="totals-"] span {
+    font-size: 2em;
+    font-family: var(--serif)
+}
+
+.totals h1 {
+    margin: 10px 50px;
+    text-align: center;
+}
+
+
+.details {
+    display: flex;
+    color: white;
+    justify-content: center;
+    width: 100%;
+    font-family: var(--sans);
+    font-size: 1.2em;
+}
+
+.details h2 {
+    padding: 10px;
+    display: block;
+}

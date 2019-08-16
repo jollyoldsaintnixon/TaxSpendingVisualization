@@ -8,6 +8,10 @@ export const pieLegend = () => {
     const text_list = document.createElement('ul')
     const right_list = document.createElement('ul')
 
+    left_list.classList.add('left-list')  
+    text_list.classList.add('text-list')  
+    right_list.classList.add('right-list') 
+
     for (let i = 0; i < LABELS.length; i++) {
         const left_box = document.createElement('li')
         const text_box = document.createElement('li')
@@ -23,7 +27,8 @@ export const pieLegend = () => {
 
         text_box.classList.add('text-box')
         text_box.innerHTML = LABELS[i];
-        text_box.style.color = COLORS[i];
+        text_box.style.backgroundColor = COLORS[i];
+        text_box.style.color = "white";
         text_box.style.border = "2px solid " + COLORS[i]
 
         left_list.appendChild(left_box)
