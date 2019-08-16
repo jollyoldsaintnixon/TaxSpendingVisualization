@@ -2,7 +2,7 @@
 // Many other videos and static resources were used, but this one had the most influence on the code by far.
 
 // export function PieChartGenerator(csvPath, sector, amount, state, multiplier = 1, skip = 1) {
-export function PieChartGenerator(csvPath, state) {
+export function PieChartGenerator(state, tax_type) {
 
     let TOTAL = 0;
     // CIRCLE TIME BABY
@@ -27,10 +27,11 @@ export function PieChartGenerator(csvPath, state) {
     // pie generator
     const pie = d3.pie()
         // .sort(null)
-        .value(d => d.value);
+        .value(d => d.amount);
 
     // define svg 
-    const svg = d3.select("svg")
+    const svg = d3.select("main").append("svg")
+        .attr("id", "svg")
         .attr("width", width)
         .attr("height", height)
         .style("display", "flex")
@@ -39,16 +40,20 @@ export function PieChartGenerator(csvPath, state) {
         .attr("transform", "translate(" + width / 2 + "," + height / 2 + ")");
 
     // import data
-    d3.csv(csvPath).then(function (data) {
+    d3.csv("./src/assets/data/FY2018_tax_revenue_detailed.csv").then(function (data) {
         // parse
 
         data.forEach((d, i) => {
             debugger
-            // if (i % skip != 0) { continue }
-            const amount = d.AMOUNT.split(',').join('');
-            d.sector = d.Tax_Type;
-            d.amount = amount
-            TOTAL += amount;
+            if (d.Geo_Name === state) {
+                if (d.item === "T00") {
+                    TOTAL = d.AMOUNT.split(',').join('') * 1000;
+                }
+                if (tax_type.includes(d.item)) { 
+                    d.key = d.Tax_Type;
+                    d.amount = d.AMOUNT.split(',').join('') * 1000;
+                }
+            }
         })
 
         console.log(d3.format(',')(TOTAL))
@@ -63,7 +68,7 @@ export function PieChartGenerator(csvPath, state) {
         console.log(JSON.stringify(nestedData))
         // append g elements arc
         const g = svg.selectAll(".arc")
-            .data(pie(nestedData))
+            .data(pie(data))
 
             // g.exit().remove();  // Throwing this line in to account for there being more g's than the current data set accounts for
 
@@ -76,11 +81,11 @@ export function PieChartGenerator(csvPath, state) {
             .style("fill", d => colors(d.data.key))
             .on("mouseover", ele => {
                 console.log(ele)
-                h1.text(ele.data.key + " accounts for $" + ele.data.value + " out of $" + TOTAL)
-                h2.text("This is " + String((ele.data.value / TOTAL) * 100).slice(0, 5) + "% of the total")
+                h1.text(ele.data.key + " accounts for $" + d3.format(',')(ele.data.amount) + " out of $" + d3.format(',')(TOTAL))
+                h2.text("This is " + String((ele.data.amount / TOTAL) * 100).slice(0, 5) + "% of the total")
             })
             .on("mouseout", ele => {
-                h1.text(state + "'s total budget for 2019 was $" + d3.format(',')(TOTAL))
+                h1.text(state + "'s tax revenue for 2019 was $" + d3.format(',')(TOTAL))
                 h2.text("")
             });
 
