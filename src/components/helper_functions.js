@@ -26,3 +26,28 @@ export const assignBox = (array_of_objs, pie_num) => {
         box.innerHTML = sliced + '%'
     });
 }
+
+// d.AMOUNT === 'X' ? 0 : d.AMOUNT.split(',').join('') * 1000,
+export const findAmount = (amount) => {
+    return amount === 'X' ? 0 : amount.split(',').join('') * 1000
+}
+
+// export const subDataPusher = (item) => {
+//     if (item != "T00" && item != "T01") {
+//         switch (item.slice(0, 2)) {
+//             case ("T0" || "T1"):
+//                 sales_taxes.push({
+//                     key: d.Tax_Type,
+//                     amount: findAmount(d.AMOUNT),
+//                     percent: (findAmount(d.AMOUNT) / TOTAL) * 100
+//                 })
+//                 break;
+    
+//             case "T2":
+//                 license_taxes.push({
+    
+//                 })
+//                 break;
+//         }
+//     }
+// }
