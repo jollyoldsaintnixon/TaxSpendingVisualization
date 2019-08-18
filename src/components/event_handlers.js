@@ -6,13 +6,23 @@
 export const subData = (container_array, pie_num) => {
     // a lot of this code was learned from Michael Stanaland's "Stacked bar chart with tooltips" tutorial at http://bl.ocks.org/mstanaland/6100713
     return (ele) => {
-
+        
         const tax_type = ele.data.key
 
         const sub_array = subArrayLocator(tax_type, container_array)
-        // const div = d3.select("main").append("div")
-        //     .attr("class", "sub-data-" + pie_num).attr("id", "sub-data-" + pie_num)
-        
+
+        // setting up the tax stack to comply with d3 v5
+        let tax_stack = { 
+            tax_type: tax_type,
+        }
+        // setting up keys
+        let keys = []
+        sub_array.forEach((sub_tax, i) => {
+            keys.push(sub_tax.key)
+            tax_stack[sub_tax.key] = sub_tax.amount
+        });
+
+
         const width = 90  // setting the dimensions to correspond to the pie charts'
         const height = 600
 
@@ -30,7 +40,7 @@ export const subData = (container_array, pie_num) => {
         //     })
         // }))
         const stack = d3.stack()
-            .keys([tax_type])
+            .keys(keys)
             .order(d3.stackOrderNone)
             .offset(d3.stackOffsetNone)
 
@@ -38,7 +48,8 @@ export const subData = (container_array, pie_num) => {
 
         const x = d3.scaleOrdinal()
             .domain(layers[0].map(d => d.x))
-            .range([10, width], 0)  // may be a quicker way to do this as there is only one bar
+            // .range([10, width], 0)  // may be a quicker way to do this as there is only one bar
+            .range([width])
 
         const y = d3.scaleLinear()
             .domain(layers[0].map(d => {
@@ -88,4 +99,42 @@ const subArrayLocator = (tax_type, container_array) => {  // helper function for
         case "Other Taxes": 
             return container_array[3]
     }
+}
+
+export const cssSubDataDisplay = (container_array, pie_num) => {
+
+    const width = 90  // setting the dimensions to correspond to the pie charts'
+    const height = 600
+
+    return (ele) => {
+        
+        const tax_type = ele.data.key
+        const sub_array = subArrayLocator(tax_type, container_array) // get right sub_array
+        // const groupTotal = groupTotal(sub_array) // not sure why this is not invoking the funciton below
+        let total = 0
+        sub_array.forEach(obj => {
+            total += obj.amount
+        });
+        const root = document.getElementById("root") // grab the root to attach later
+
+        const ul = document.createElement("ul") // set up ul container
+        ul.classList.add("sub-data-list-" + pie_num)
+        ul.id = ("sub-data-list-" + pie_num)
+
+        sub_array.forEach(sub_tax => {
+            const li = document.createElement('li')
+            li.style.height = (sub_tax.percent_of_total * 6) + 'px'
+            ul.appendChild(li)
+        });
+
+        root.appendChild(ul)
+    }
+}
+
+const groupTotal = array => {
+    let total = 0
+    array.forEach(obj => {
+        total += obj.amount
+    });
+    return total
 }

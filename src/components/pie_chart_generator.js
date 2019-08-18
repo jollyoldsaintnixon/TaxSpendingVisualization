@@ -2,7 +2,7 @@
 // The legend code was from Crypters Infotech's youtube tutorial "Pie Chart using D3.js"
 
 import { assignBox, findAmount } from './helper_functions'
-import { subData } from './event_handlers'
+import { subData, cssSubDataDisplay } from './event_handlers'
 
 export const COLORS = ["#a6751e", "#e7ab04", "#66a51e", "#7470b3", "#e82b8a"]
 // export const LABELS = ["Property Taxes", "Sales and Gross Receipts Taxes", "License Taxes", "Income Taxes", "Other Taxes"]
@@ -78,6 +78,7 @@ export function PieChartGenerator(state, tax_type, pie_num) {
         let license_taxes = []
         let income_taxes = []
         let other_taxes = []
+        // let sales_tax_obj = { tax_group: LABELS[4] }
         // parse the csv
         data.forEach((d, i) => {
             
@@ -90,11 +91,13 @@ export function PieChartGenerator(state, tax_type, pie_num) {
                     let tax_obj = {
                         key: d.Tax_Type,
                         amount: findAmount(d.AMOUNT),
-                        percent: (findAmount(d.AMOUNT) / TOTAL) * 100
+                        percent_of_total: (findAmount(d.AMOUNT) / TOTAL) * 100,
                     }
+
                     switch (d.item.slice(0,2)) { // fill up sub arrays
                         case "T0":
-                            sales_taxes.push(tax_obj)
+                            sales_taxes.push(tax_obj)            
+                            // sales_tax_obj[d.Tax_Type] = findAmount(d.AMOUNT)
                             break;
                         case "T1":
                             sales_taxes.push(tax_obj)
@@ -113,7 +116,7 @@ export function PieChartGenerator(state, tax_type, pie_num) {
                             break;
                     }
                 }
-                
+
                 if (tax_type.includes(d.item)) {
                     if (d.item != 'T00') {
                         TYPES.push({
@@ -155,10 +158,12 @@ export function PieChartGenerator(state, tax_type, pie_num) {
             .ease(d3.easeLinear)
             .duration(500)
             .attrTween('d', pieTween);
-
+        // determine how to flip the pies
         if (pie_num === 2) {// flip the second pie
             g.attr("position", "absolute")
-            g.style("transform", "scaleX(-1) translate(300px, 0px)");
+            g.style("transform", "scaleX(-1) translate(300px, 0px) scaleY(-1)");
+        } else {
+            g.style("transform", "scaleY(-1)");
         }
         // event handlers
         g.on("mouseover", ele => {
@@ -170,7 +175,7 @@ export function PieChartGenerator(state, tax_type, pie_num) {
             // h1.text(state + "'s tax revenue for 2018 was $" + d3.format(',')(TOTAL))
             // h2.text("")
         })
-        .on("click", subData(container_array, pie_num));
+        .on("click", cssSubDataDisplay(container_array, pie_num));
 
         // if (pie_num === 2) {
         //     const legends = svg.append("g").attr("transform", "translate(-63, -128)")

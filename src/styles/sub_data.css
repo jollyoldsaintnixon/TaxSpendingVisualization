@@ -1,0 +1,8 @@
+[class*='sub-data-list-'] {
+    background: orange;
+}
+
+[class*='sub-data-list-'] li {
+    display: block;
+    width: 90px
+}
