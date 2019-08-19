@@ -13,6 +13,7 @@
 
 [class*='select-'] {
     position: relative;
+    z-index: 3;
 }
 
 [class*='state-list'] {

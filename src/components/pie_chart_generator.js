@@ -8,30 +8,18 @@ export const COLORS = ["#a6751e", "#e7ab04", "#66a51e", "#7470b3", "#e82b8a"]
 // export const LABELS = ["Property Taxes", "Sales and Gross Receipts Taxes", "License Taxes", "Income Taxes", "Other Taxes"]
 export const LABELS = ["Other Taxes", "Income Taxes", "License Taxes", "Property Taxes", "Sales Taxes"]
 // export function PieChartGenerator(csvPath, sector, amount, state, multiplier = 1, skip = 1) {
-export function PieChartGenerator(state, tax_type, pie_num, csv = "FY2018-STC-Detailed-Table") {
+export function PieChartGenerator(state, tax_type, pie_num, csv = "./src/assets/data/FY2018-STC-Detailed-Table.csv") {
 
-    const remove = document.getElementById("totals-" + pie_num)
-    remove ? remove.parentNode.removeChild(remove) : null
+    // const remove = document.getElementById("totals-" + pie_num)
+    // remove ? remove.parentNode.removeChild(remove) : null
 
-    const remove2 = document.getElementById("totals-" + pie_num)
-    remove2 ? remove2.parentNode.removeChild(remove2) : null
+    // const remove2 = document.getElementById("details-" + pie_num)
+    // remove2 ? remove2.parentNode.removeChild(remove2) : null
 
+    const h1 = d3.select('#totals-header-' + pie_num)
+    const span = d3.select('#totals-span-' + pie_num)
+    const h2 = d3.select("#details-" + pie_num)
 
-    const div = d3.select("#totals")
-        .append("div")
-        .attr("class", "totals-" + pie_num)
-        .attr("id", "totals-" + pie_num)
-
-    const h1 = div
-        .append("h1")
-        // .attr('id', 'revenue-' + pie_num)
-
-    const span = div
-        .append("span")
-
-    const h2 = d3.select("#details")
-        .append("h2")
-        // .attr('id', 'percent-' + pie_num)
 
     let TOTAL = 0;
     let TYPES = []

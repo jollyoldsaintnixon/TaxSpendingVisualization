@@ -12,7 +12,8 @@ export const pieLegend = () => {
     text_list.classList.add('text-list')  
     right_list.classList.add('right-list') 
 
-    for (let i = 0; i < LABELS.length; i++) {
+    for (let i = LABELS.length - 1 ; i >= 0; i--) {
+        
         const left_box = document.createElement('li')
         const text_box = document.createElement('li')
         const right_box = document.createElement('li')

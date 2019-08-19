@@ -54,9 +54,9 @@ export const findAmount = (amount) => {
 
 export const budgetCircle = (datum1) => {
     // based on Matthew McKenna's example at http://bl.ocks.org/mpmckenna8/raw/566509dd3d9a08e5f9b2/
-    debugger
+    // debugger
     return datum2 => {
-        debugger
+        // debugger
         data = [datum1, datum2]
 
         const height = 100
