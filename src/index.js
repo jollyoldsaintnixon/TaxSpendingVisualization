@@ -2,7 +2,7 @@
 import { PieChartGenerator } from './components/pie_chart_generator'
 import { pieLegend } from './components/pie_legend'
 import { state_selector, TOP_LEVEL } from './components/state_selector'
-import { yearSelector } from './components/year_selector'
+import { budgetCircle } from './components/helper_functions'
 import './styles/app.scss'
 
 document.addEventListener("DOMContentLoaded", () => {
@@ -24,4 +24,6 @@ document.addEventListener("DOMContentLoaded", () => {
 
     PieChartGenerator("Alabama", TOP_LEVEL, 1)
     PieChartGenerator("Wyoming", TOP_LEVEL, 2)
+
+    
 })

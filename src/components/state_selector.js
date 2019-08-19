@@ -57,12 +57,12 @@ export const state_selector = (pie_num) => {
     select.id = "select-" + pie_num
 
     wrapper.addEventListener('click', e => {
+        e.stopPropagation()
         state_list.classList.toggle('hidden')
     })
-    wrapper.addEventListener('blur', e => {
-        state_list.classList.add('hidden')
-    })
-    wrapper.addEventListener('focusout', e => {
+    
+    const body = document.getElementsByTagName('body')[0]  // add an event listener so that if I click anywhere else the list disappears
+    body.addEventListener('click', e => {
         state_list.classList.add('hidden')
     })
     
@@ -89,6 +89,7 @@ export const state_selector = (pie_num) => {
         state_list_item.addEventListener("click", stateSelector(state))
         state_list.appendChild(state_list_item)
     })
+    
     wrapper.appendChild(select)
     wrapper.appendChild(state_list)
     

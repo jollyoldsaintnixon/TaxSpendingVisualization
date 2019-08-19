@@ -29,6 +29,7 @@ $zero: lighten($four, 60%);
     font-family: var(--sans);
     font-size: 3em;
     color: white;
+    margin: 20px;
 }
 
 main {
@@ -65,7 +66,7 @@ main {
 }
 
 body {
-    background: blue;
+    background: $four;
 }
 
 .label {

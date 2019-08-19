@@ -166,25 +166,34 @@ export function PieChartGenerator(state, tax_type, pie_num, csv = "./src/assets/
         }
         // event handlers
         g.on("mouseover", (d, i) => {  
-                console.log(d)
-                d3.select(this).transition()
-                    .duration('50')
-                    .attr('opacity', '.85')
-                    .attr("cursor", 'pointer')
-            })
+            console.log(d)
+            d3.select(this).transition()
+                .duration('50')
+                .attr('opacity', '.85')
+                .attr("cursor", 'pointer')
+        })
         g.on("mouseout", ele => {
             // h1.text(state + "'s tax revenue for 2018 was $" + d3.format(',')(TOTAL))
             // h2.text("")
         })
-        // .on("click", cssSubDataDisplay(container_array, pie_num));
-            
-    })
-        .catch(error => { if (error) throw error })
+        const span1 = document.getElementById('totals-span-1')
+        const span2 = document.getElementById('totals-span-2')
 
+        if (span1.innerText
+            && span2.innerText) {
+            const total1 = parseInt(span1.innerText.slice(1).split(',').join(''))
+            const total2 = parseInt(span2.innerText.slice(1).split(',').join(''))
+            budgetCircle(total1, total2)
+        }       
+                
+    })
+    .catch(error => { if (error) throw error })
+    
     const pieTween = b => {
         b.innerRadius = 0;
         const i = d3.interpolate({ startAngle: 0, endAngle: 0 }, b)
         return (t) => { return arc(i(t)) }
     }    
-
-}
+            
+        }
+        
