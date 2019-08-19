@@ -1,4 +1,4 @@
-import { COLORS, LABELS} from './pie_chart_generator'
+import { CIRCLE_COLORS, LABELS} from './pie_chart_generator'
 
 export const pieLegend = () => {
     const master_list = document.createElement("ul")
@@ -20,17 +20,17 @@ export const pieLegend = () => {
 
         left_box.classList.add('box', 'left-box')
         left_box.id = ('left-box-' + i)
-        left_box.style.color = COLORS[i]
+        left_box.style.color = CIRCLE_COLORS[i]
 
         right_box.classList.add('box', 'right-box')
         right_box.id = ('right-box-' + i)
-        right_box.style.color = COLORS[i]
+        right_box.style.color = CIRCLE_COLORS[i]
 
         text_box.classList.add('text-box')
         text_box.innerHTML = LABELS[i];
-        text_box.style.backgroundColor = COLORS[i];
+        text_box.style.backgroundColor = CIRCLE_COLORS[i];
         text_box.style.color = "white";
-        text_box.style.border = "2px solid " + COLORS[i]
+        text_box.style.border = "2px solid " + CIRCLE_COLORS[i]
 
         left_list.appendChild(left_box)
         text_list.appendChild(text_box)

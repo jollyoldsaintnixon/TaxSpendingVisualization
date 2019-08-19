@@ -5,15 +5,22 @@
 
 $four: #064B66;
 $five: darken($four, 20%);
-$three: lighten($four, 20%);
-$two: lighten($four, 40%);
-$one: lighten($four, 60%);
-$zero: lighten($four, 80%);
+$three: lighten($four, 15%);
+$two: lighten($four, 30%);
+$one: lighten($four, 45%);
+$zero: lighten($four, 60%);
 
 :root {
     --sans: 'Lato', sans-serif;
     --serif: 'Merriweather', serif;
     --full: 620px;
+    --five: $five;
+    --four: $four;
+    --three: $three;
+    --two: $two;
+    --one: $one;
+    --zero: $zero;
+
 }
 
 .headline {
@@ -21,7 +28,7 @@ $zero: lighten($four, 80%);
     text-align: center;
     font-family: var(--sans);
     font-size: 3em;
-    color: $three;
+    color: white;
 }
 
 main {
@@ -67,7 +74,7 @@ body {
 }
 
 .state-name {
-    color: $three;
+    color: white;
     display: flex;
     width: var(--full);
     justify-content: space-around;

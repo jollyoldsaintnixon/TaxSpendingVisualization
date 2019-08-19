@@ -1,3 +1,10 @@
+$four: #064B66;
+$five: darken($four, 20%);
+$three: lighten($four, 15%);
+$two: lighten($four, 30%);
+$one: lighten($four, 45%);
+$zero: lighten($four, 60%);
+
 .selector-container {
     display: flex;
     width: 620px;
@@ -14,10 +21,22 @@
 [class*='select-'] {
     position: relative;
     z-index: 3;
+    border-bottom: 1px solid transparent;
+    margin: 0 20px;
+    span {
+        margin: 0;
+        padding: 10px;
+        background: $three;
+        border-radius: 8%;
+    }
+    span:hover {
+        cursor: pointer;
+        color: $four;
+        background: $two;
+        border-bottom: 1px solid $four;
+    }
 }
-[class*='select-']:hover {
-    cursor: pointer;
-}
+
 
 [class*='select-wrapper-'] {
     display: flex;
@@ -35,9 +54,10 @@
 [class*='state-list'] {
     position: absolute;
     background: purple;
-    top: 40px;
+    top: 57px;
     height: 400px;
     overflow-y: auto;
+    border: 1px solid $four;
 }
 
 [class*='state-list']:hover {
@@ -45,7 +65,9 @@
 }
 
 [class*='state-list'] li {
-    background: red;
+    border-left: $four;
+    border-right: $four;
+    background: $two;
     font-size: .6em;
     width: 135px;
     padding: 3px;
