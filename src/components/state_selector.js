@@ -45,17 +45,19 @@ const phaseOut = (node) => {
     node.parentNode.removeChild(node)
 }
 
-export const customSelector = (pie_num) => {
+export const state_selector = (pie_num) => {
     const STATE_NAMES = ['Alabama', 'Alaska', 'Arizona', 'Arkansas', 'California', 'Colorado', 'Connecticut', 'Delaware', 'Florida', 'Georgia', 'Hawaii', 'Idaho', 'Illinois', 'Indiana', 'Iowa', 'Kansas', 'Kentucky', 'Louisiana', 'Maine', 'Maryland', 'Massachusetts', 'Michigan', 'Minnesota', 'Mississippi', 'Missouri', 'Montana', 'Nebraska', 'Nevada', 'New Hampshire', 'New Jersey', 'New Mexico', 'New York', 'North Carolina', 'North Dakota', 'Ohio', 'Oklahoma', 'Oregon', 'Pennsylvania', 'Rhode Island', 'South Carolina', 'South Dakota', 'Tennessee', 'Texas', 'Utah', 'Vermont', 'Virginia', 'Washington', 'West Virginia', 'Wisconsin', 'Wyoming']
 
-    // const container = document.createElement('div')  // revisit if time to make custom select
-    // container.classList.add('initial-container')
+    const wrapper = document.createElement('div')
+    wrapper.classList.add("class", "select-wrapper-" + pie_num)
+    wrapper.id = "select-wrapper-" + pie_num
 
     const select = document.createElement("span")
     select.innerHTML = pie_num === 1 ? 'Alabama' : 'Wyoming'
     select.classList.add("class", "select-" + pie_num)
     select.id = "select-" + pie_num
-    select.addEventListener('click', e => {
+
+    wrapper.addEventListener('click', e => {
         document.getElementById('state-list-' + pie_num).classList.toggle('hidden')
     })
     
@@ -63,14 +65,10 @@ export const customSelector = (pie_num) => {
             return e => {
             // const state = e.target.value
             const select = document.getElementById("select-" + pie_num)
-            select.innerHTML = state
+            select.innerText = state
             const svg = document.getElementById("svg-" + pie_num)
             svg.parentNode.removeChild(svg)
             PieChartGenerator(state, TOP_LEVEL, pie_num)
-
-            const side = pie_num === 1 ? "-left" : "-right"
-            // const h2 = document.getElementsByClassName("state" + side)[0]
-            // h2.innerHTML = state
         }
     }
     const state_list = document.createElement('ul')
@@ -86,10 +84,10 @@ export const customSelector = (pie_num) => {
         state_list_item.addEventListener("click", stateSelector(state))
         state_list.appendChild(state_list_item)
     })
-    // container.appendChild(select)
-    // return container
-    select.appendChild(state_list)
-    return select
+    wrapper.appendChild(select)
+    wrapper.appendChild(state_list)
+    
+    return wrapper
 }
 
 // const phaseOut = (node) => {

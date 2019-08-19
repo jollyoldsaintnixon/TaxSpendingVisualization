@@ -1,3 +1,9 @@
+@import './reset.scss';
+@import './selectors.scss';
+@import './sub_data.scss';
+@import './totals.scss';
+
+
 :root {
     --sans: 'Lato', sans-serif;
     --serif: 'Merriweather', serif;

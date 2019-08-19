@@ -1,8 +1,9 @@
 
 import { PieChartGenerator } from './components/pie_chart_generator'
 import { pieLegend } from './components/pie_legend'
-import { selector, customSelector, TOP_LEVEL } from './components/selector'
+import { state_selector, TOP_LEVEL } from './components/state_selector'
 import { yearSelector } from './components/year_selector'
+import './styles/app.scss'
 
 document.addEventListener("DOMContentLoaded", () => {
     
@@ -11,8 +12,8 @@ document.addEventListener("DOMContentLoaded", () => {
     const root = document.getElementById("root")
     // const ul = pieLegend()
     const ul = pieLegend()
-    const select_1 = customSelector(1)
-    const select_2 = customSelector(2)
+    const select_1 = state_selector(1)
+    const select_2 = state_selector(2)
     const selector_container = document.getElementsByClassName("selector-container")[0]
     
     const yearSelector = yearSelector
