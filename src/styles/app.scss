@@ -3,6 +3,12 @@
 @import './sub_data.scss';
 @import './totals.scss';
 
+$four: #064B66;
+$five: darken($four, 20%);
+$three: lighten($four, 20%);
+$two: lighten($four, 40%);
+$one: lighten($four, 60%);
+$zero: lighten($four, 80%);
 
 :root {
     --sans: 'Lato', sans-serif;
@@ -15,13 +21,13 @@
     text-align: center;
     font-family: var(--sans);
     font-size: 3em;
-    color: white;
+    color: $three;
 }
 
 main {
     display: flex;
     margin: 0 auto;
-    background: hotpink;
+    background: $one;
     width: 1000px;
     position: relative;
     flex-direction: column;
@@ -61,7 +67,7 @@ body {
 }
 
 .state-name {
-    color: white;
+    color: $three;
     display: flex;
     width: var(--full);
     justify-content: space-around;

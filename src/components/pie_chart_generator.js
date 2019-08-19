@@ -4,6 +4,7 @@
 import { assignBox, findAmount, budgetCircle } from './helper_functions'
 import { subData, cssSubDataDisplay } from './event_handlers'
 
+// export const COLORS = ["#a6751e", "#e7ab04", "#66a51e", "#7470b3", "#e82b8a"]
 export const COLORS = ["#a6751e", "#e7ab04", "#66a51e", "#7470b3", "#e82b8a"]
 // export const LABELS = ["Property Taxes", "Sales and Gross Receipts Taxes", "License Taxes", "Income Taxes", "Other Taxes"]
 export const LABELS = ["Other Taxes", "Income Taxes", "License Taxes", "Property Taxes", "Sales Taxes"]
@@ -32,7 +33,7 @@ export function PieChartGenerator(state, tax_type, pie_num, csv = "./src/assets/
 
 
 
-    const colors = d3.scaleOrdinal(d3.schemeDark2);
+    const colors = d3.scaleOrdinal(COLORS);
 
     // arc generator
     const arc = d3.arc()

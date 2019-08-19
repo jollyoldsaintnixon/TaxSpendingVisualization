@@ -15,10 +15,29 @@
     position: relative;
     z-index: 3;
 }
+[class*='select-']:hover {
+    cursor: pointer;
+}
+
+[class*='select-wrapper-'] {
+    display: flex;
+    flex-direction: column;
+}
+
+.select-wrapper-2 {
+    align-items: flex-end
+}
+
+.select-wrapper-1 {
+    align-items: flex-start
+}
 
 [class*='state-list'] {
     position: absolute;
     background: purple;
+    top: 40px;
+    height: 400px;
+    overflow-y: auto;
 }
 
 [class*='state-list']:hover {
@@ -28,14 +47,24 @@
 [class*='state-list'] li {
     background: red;
     font-size: .6em;
+    width: 135px;
+    padding: 3px;
+    border-bottom: 1px solid transparent;
 }
 
 .state-list-2 {
     text-align: right;
 }
 
-option:hover {
+[class*='state-list'] li:hover {
     border-bottom: 1px solid white;
+}
+
+#scrollbar1 { 
+  width: 520px; 
+  clear: both; 
+  margin: 20px 0 10px;
+  
 }
 
 .master-list {
