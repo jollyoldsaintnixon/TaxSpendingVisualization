@@ -1,20 +1,29 @@
+TODO
+* Pick decent color scheme
+* Get Sass working
+* Get rid of html select button in favor of pure JS dropdown
+* Add different sized circles representing relative size of budget
+** Normalized to larger of two budgets
+* Add different year options
+* Add hover effects to pie chart areas
+
 # TaxSpendingVisualization
 
   A breakdown of how every $100 of tax revenue is spent by federal, state, and local governments
 
 ## Background and Overview
 
-  This project will allow the user to visualize via JavaScript how their tax money is spent at the federal, state, and local levels in one app.  Federal data is readily available at https://api.usaspending.gov/docs/endpoints.  The accessibility  of state and local information will depend on the entity in question.
+  This project will allow the user to visualize via JavaScript compare how tax money is spent at the state level.  This is information is pulled from US census data at https://www.census.gov/data/tables/2018/econ/stc/2018-annual.html.
 
 ## Funcionality and MVP
 
   In TaxSpendingVisualization, users will be able to:
-    - [] select level of government
+    - [] select states to compare
     - [] select tax year
     - [] breakdown primary divisions into subdivisions
   This app will also:
     - [] allow comparison of tax spending breakdown over different years
-    - [] allow comparison of tax spending breakdown across different states and cities
+
     
 ## Wireframes
 
@@ -23,7 +32,7 @@
 
 ## Architecture and Technology
 
-Only vanilla javascript will be used to create the logic of this project.  SASS will be used to render the display.
+Only vanilla javascript and the d3 library will be used to create the logic of this project.  SASS will be used to render the display.  
 
 ## Implementation Timeline
 
@@ -39,11 +48,9 @@ Phase 3) (2-3 days)
 
 ## Bonus Feature
   
-  Federal data and at least 3 states must be implemented in order for the beta to be released.  Any other state, territory, or city will follow in the bonus features.  Normalization of state and local spending categories will help with comparison.
+  At least 3 states must be implemented in order for the beta to be released.  Ability to compare sub-category tax data will be added as a bonus.  Any other state, territory, or city will follow in the bonus features.
 
 ### Resources
 
-  NC: https://www.nc.gov/government/open-budget/bulk-download
-  CA: http://www.ebudget.ca.gov/budget/2019-20EN/#/BudgetDetail
-  Chapel Hill: https://catalog.data.gov/dataset/budget-and-actuals
-  Ultimate Revenue 2018: https://www.census.gov/data/tables/2018/econ/stc/2018-annual.html
+  Revenue 2018: https://www.census.gov/data/tables/2018/econ/stc/2018-annual.html
+

@@ -46,10 +46,13 @@ export const subData = (container_array, pie_num) => {
 
         const layers = stack(sub_array)
 
-        const x = d3.scaleOrdinal()
-            .domain(layers[0].map(d => d.x))
-            // .range([10, width], 0)  // may be a quicker way to do this as there is only one bar
-            .range([width])
+        // const x = d3.scaleOrdinal()
+        //     .domain(layers[0].map(d => d.x))
+        //     // .range([10, width], 0)  // may be a quicker way to do this as there is only one bar
+        //     .range([width])
+        const x = d3.scaleBand()
+            .range([0, width])
+            .padding(0.1)
 
         const y = d3.scaleLinear()
             .domain(layers[0].map(d => {
@@ -107,6 +110,9 @@ export const cssSubDataDisplay = (container_array, pie_num) => {
     const height = 600
 
     return (ele) => {
+
+        const remove = document.getElementById("sub-data-list-" + pie_num)
+        remove ? remove.parentNode.removeChild(remove) : null
         
         const tax_type = ele.data.key
         const sub_array = subArrayLocator(tax_type, container_array) // get right sub_array

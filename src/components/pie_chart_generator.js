@@ -1,14 +1,14 @@
 // A lot of this code was based heavily off of Karthik Thota's youtube tutorial "Introduction to d3.js = Pie Chart and Donut Chart"
 // The legend code was from Crypters Infotech's youtube tutorial "Pie Chart using D3.js"
 
-import { assignBox, findAmount } from './helper_functions'
+import { assignBox, findAmount, budgetCircle } from './helper_functions'
 import { subData, cssSubDataDisplay } from './event_handlers'
 
 export const COLORS = ["#a6751e", "#e7ab04", "#66a51e", "#7470b3", "#e82b8a"]
 // export const LABELS = ["Property Taxes", "Sales and Gross Receipts Taxes", "License Taxes", "Income Taxes", "Other Taxes"]
 export const LABELS = ["Other Taxes", "Income Taxes", "License Taxes", "Property Taxes", "Sales Taxes"]
 // export function PieChartGenerator(csvPath, sector, amount, state, multiplier = 1, skip = 1) {
-export function PieChartGenerator(state, tax_type, pie_num) {
+export function PieChartGenerator(state, tax_type, pie_num, csv = "FY2018-STC-Detailed-Table") {
 
     const remove = document.getElementById("totals-" + pie_num)
     remove ? remove.parentNode.removeChild(remove) : null
@@ -72,7 +72,7 @@ export function PieChartGenerator(state, tax_type, pie_num) {
         .attr("transform", "translate(" + width / 2 + "," + height / 2 + ")")
 
     // import data
-    d3.csv("./src/assets/data/FY2018_tax_revenue_detailed.csv").then(function (data) {
+    d3.csv(csv).then(function (data) {
         // initialize arrays that will contain the sub level tax data
         let sales_taxes = []
         let license_taxes = []
@@ -141,6 +141,8 @@ export function PieChartGenerator(state, tax_type, pie_num) {
         h1.text(state + "'s tax revenue for 2018 was ")
         span.text("$" + d3.format(',')(TOTAL))
         h2.text("")
+        // attempt budgetCircle call
+        budgetCircle(TOTAL)
         // set up the percentages in the center box
         assignBox(TYPES, pie_num)
 
@@ -151,13 +153,21 @@ export function PieChartGenerator(state, tax_type, pie_num) {
             .style("display", (d, i) => d.value === TOTAL ? "none" : "null");  // attempt to render half the chart invisible
             
         // append the path of the arc
-        g.append("path")
+        const path = g.append("path")
             .attr("d", arc)
             .style("fill", d => colors(d.data.key))
             .transition()
             .ease(d3.easeLinear)
             .duration(500)
             .attrTween('d', pieTween);
+        
+        // path.on("mouseover", (d, i) => {  // why doesn't this work?
+        //         console.log(d)
+        //         d3.select(this).transition()
+        //             .duration('50')
+        //             .attr('opacity', '.85')
+        //             .attr("cursor", 'pointer')
+        //     })
         // determine how to flip the pies
         if (pie_num === 2) {// flip the second pie
             g.attr("position", "absolute")
@@ -166,43 +176,18 @@ export function PieChartGenerator(state, tax_type, pie_num) {
             g.style("transform", "scaleY(-1)");
         }
         // event handlers
-        g.on("mouseover", ele => {
-            console.log(ele)
-            // h1.text(ele.data.key + " accounts for $" + d3.format(',')(ele.data.amount) + " out of $" + d3.format(',')(TOTAL))
-            // h2.text("This is " + String((ele.data.amount / TOTAL) * 100).slice(0, 5) + "% of the total")
-        })
-        .on("mouseout", ele => {
+        g.on("mouseover", (d, i) => {  
+                console.log(d)
+                d3.select(this).transition()
+                    .duration('50')
+                    .attr('opacity', '.85')
+                    .attr("cursor", 'pointer')
+            })
+        g.on("mouseout", ele => {
             // h1.text(state + "'s tax revenue for 2018 was $" + d3.format(',')(TOTAL))
             // h2.text("")
         })
-        .on("click", cssSubDataDisplay(container_array, pie_num));
-
-        // if (pie_num === 2) {
-        //     const legends = svg.append("g").attr("transform", "translate(-63, -128)")
-        //         .selectAll(".legends").data(TYPES);
-    
-        //     const legend = legends.enter().append("g").classed("legends", true).attr("transform", (d , i) => "translate(0," + (i+1) * 30 +  ")");
-        //     legend.append("rect")
-        //         .attr("width", 20)
-        //         .attr("height", 20);
-    
-        //     debugger
-        //     legend.style("stroke", (d, i) => i ? COLORS[i - 1] : null)
-        //         .style("fill", "transparent")
-        //         .style("display", (d, i) => i ? "null" : "none")
-    
-        //     // legend.append("text").classed("label", true).text((d, i) => LABELS[i-1])
-        //     //     .attr("fill", (d, i) => i ? COLORS[i - 1] : null)
-        //     //     .attr("x", 30)
-        //     //     .attr("y", 20)
-        //     //     .attr("border", (d, i) => "3px solid " + COLORS[i - 1])
-        //     legend.append("text").classed("label", true).text((d, i) => LABELS[i-1])
-        //         .style("stroke", "none")
-        //         .attr("fill", (d, i) => i ? COLORS[i - 1] : null)
-        //         .attr("x", 30)
-        //         .attr("y", 20)
-        //         .attr("border", (d, i) => "3px solid " + COLORS[i - 1])
-        // }
+        // .on("click", cssSubDataDisplay(container_array, pie_num));
             
     })
         .catch(error => { if (error) throw error })
@@ -212,6 +197,5 @@ export function PieChartGenerator(state, tax_type, pie_num) {
         const i = d3.interpolate({ startAngle: 0, endAngle: 0 }, b)
         return (t) => { return arc(i(t)) }
     }    
-
 
 }

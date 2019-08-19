@@ -63,3 +63,7 @@ body {
     font-family: var(--sans);
     text-decoration: underline;
 }
+
+.hidden {
+    display: none;
+}

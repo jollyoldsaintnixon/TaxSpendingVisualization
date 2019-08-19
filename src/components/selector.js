@@ -1,9 +1,9 @@
 import { PieChartGenerator } from './pie_chart_generator'
 
 export const TOP_LEVEL = ['T00', 'T01', 'TA1', 'TA3', 'TA4', 'TA5']
+const STATE_NAMES = ['Alabama', 'Alaska', 'Arizona', 'Arkansas', 'California', 'Colorado', 'Connecticut', 'Delaware', 'Florida', 'Georgia', 'Hawaii', 'Idaho', 'Illinois', 'Indiana', 'Iowa', 'Kansas', 'Kentucky', 'Louisiana', 'Maine', 'Maryland', 'Massachusetts', 'Michigan', 'Minnesota', 'Mississippi', 'Missouri', 'Montana', 'Nebraska', 'Nevada', 'New Hampshire', 'New Jersey', 'New Mexico', 'New York', 'North Carolina', 'North Dakota', 'Ohio', 'Oklahoma', 'Oregon', 'Pennsylvania', 'Rhode Island', 'South Carolina', 'South Dakota', 'Tennessee', 'Texas', 'Utah', 'Vermont', 'Virginia', 'Washington', 'West Virginia', 'Wisconsin', 'Wyoming']
 
 export const selector = (pie_num) => {
-    const STATE_NAMES = ['Alabama', 'Alaska', 'Arizona', 'Arkansas', 'California', 'Colorado', 'Connecticut', 'Delaware', 'Florida', 'Georgia', 'Hawaii', 'Idaho', 'Illinois', 'Indiana', 'Iowa', 'Kansas', 'Kentucky', 'Louisiana', 'Maine', 'Maryland', 'Massachusetts', 'Michigan', 'Minnesota', 'Mississippi', 'Missouri', 'Montana', 'Nebraska', 'Nevada', 'New Hampshire', 'New Jersey', 'New Mexico', 'New York', 'North Carolina', 'North Dakota', 'Ohio', 'Oklahoma', 'Oregon', 'Pennsylvania', 'Rhode Island', 'South Carolina', 'South Dakota', 'Tennessee', 'Texas', 'Utah', 'Vermont', 'Virginia', 'Washington', 'West Virginia', 'Wisconsin', 'Wyoming']
 
     // const container = document.createElement('div')  // revisit if time to make custom select
     // container.classList.add('initial-container')
@@ -44,3 +44,55 @@ const phaseOut = (node) => {
 
     node.parentNode.removeChild(node)
 }
+
+export const customSelector = (pie_num) => {
+    const STATE_NAMES = ['Alabama', 'Alaska', 'Arizona', 'Arkansas', 'California', 'Colorado', 'Connecticut', 'Delaware', 'Florida', 'Georgia', 'Hawaii', 'Idaho', 'Illinois', 'Indiana', 'Iowa', 'Kansas', 'Kentucky', 'Louisiana', 'Maine', 'Maryland', 'Massachusetts', 'Michigan', 'Minnesota', 'Mississippi', 'Missouri', 'Montana', 'Nebraska', 'Nevada', 'New Hampshire', 'New Jersey', 'New Mexico', 'New York', 'North Carolina', 'North Dakota', 'Ohio', 'Oklahoma', 'Oregon', 'Pennsylvania', 'Rhode Island', 'South Carolina', 'South Dakota', 'Tennessee', 'Texas', 'Utah', 'Vermont', 'Virginia', 'Washington', 'West Virginia', 'Wisconsin', 'Wyoming']
+
+    // const container = document.createElement('div')  // revisit if time to make custom select
+    // container.classList.add('initial-container')
+
+    const select = document.createElement("span")
+    select.innerHTML = pie_num === 1 ? 'Alabama' : 'Wyoming'
+    select.classList.add("class", "select-" + pie_num)
+    select.id = "select-" + pie_num
+    select.addEventListener('click', e => {
+        document.getElementById('state-list-' + pie_num).classList.toggle('hidden')
+    })
+    
+    const stateSelector = state => {
+            return e => {
+            // const state = e.target.value
+            const select = document.getElementById("select-" + pie_num)
+            select.innerHTML = state
+            const svg = document.getElementById("svg-" + pie_num)
+            svg.parentNode.removeChild(svg)
+            PieChartGenerator(state, TOP_LEVEL, pie_num)
+
+            const side = pie_num === 1 ? "-left" : "-right"
+            // const h2 = document.getElementsByClassName("state" + side)[0]
+            // h2.innerHTML = state
+        }
+    }
+    const state_list = document.createElement('ul')
+    state_list.classList.add('state-list-' + pie_num)
+    state_list.classList.add('hidden')
+    state_list.id = 'state-list-' + pie_num
+    
+    STATE_NAMES.forEach(state => {
+        const state_list_item = document.createElement('li')
+
+        state_list_item.innerHTML = state
+        state_list_item.setAttribute("value", state)
+        state_list_item.addEventListener("click", stateSelector(state))
+        state_list.appendChild(state_list_item)
+    })
+    // container.appendChild(select)
+    // return container
+    select.appendChild(state_list)
+    return select
+}
+
+// const phaseOut = (node) => {
+
+//     node.parentNode.removeChild(node)
+// }

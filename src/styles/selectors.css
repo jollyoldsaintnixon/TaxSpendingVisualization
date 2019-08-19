@@ -11,6 +11,28 @@
     padding: 0 10px;
 }
 
+[class*='select-'] {
+    position: relative;
+}
+
+[class*='state-list'] {
+    position: absolute;
+    background: purple;
+}
+
+[class*='state-list']:hover {
+    cursor: pointer;
+}
+
+[class*='state-list'] li {
+    background: red;
+    font-size: .6em;
+}
+
+.state-list-2 {
+    text-align: right;
+}
+
 option:hover {
     border-bottom: 1px solid white;
 }
@@ -56,3 +78,4 @@ option:hover {
     height: 30px;
     margin: 0 15px;
 }
+
