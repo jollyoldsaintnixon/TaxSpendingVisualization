@@ -92,6 +92,7 @@ export const budgetCircle = (total1, total2) => {
         })
         .attr('class', 'circles').attr('cy', height / 2)
         .attr('cx', (d, i) => width / 2)
+        .attr('fill', '#0a80ae')
 
     svg2.selectAll('.circles').data([total2])
         .enter().append('circle')
@@ -100,4 +101,5 @@ export const budgetCircle = (total1, total2) => {
         })
         .attr('class', 'circles').attr('cy', height / 2)
         .attr('cx', (d, i) => width / 2)
+        .attr('fill', '#0a80ae')
 }

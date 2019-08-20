@@ -172,10 +172,12 @@ export function PieChartGenerator(state, tax_type, pie_num, csv = "./src/assets/
                 .attr('opacity', '.85')
                 .attr("cursor", 'pointer')
         })
-        g.on("mouseout", ele => {
+        .on("mouseout", ele => {
             // h1.text(state + "'s tax revenue for 2018 was $" + d3.format(',')(TOTAL))
             // h2.text("")
         })
+        .on('click', subData(container_array, pie_num))
+
         const span1 = document.getElementById('totals-span-1')
         const span2 = document.getElementById('totals-span-2')
 

@@ -6,7 +6,7 @@
 export const subData = (container_array, pie_num) => {
     // a lot of this code was learned from Michael Stanaland's "Stacked bar chart with tooltips" tutorial at http://bl.ocks.org/mstanaland/6100713
     return (ele) => {
-        
+        debugger
         const tax_type = ele.data.key
 
         const sub_array = subArrayLocator(tax_type, container_array)
