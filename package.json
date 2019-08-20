@@ -42,5 +42,8 @@
     "> 1%",
     "maintained node versions",
     "not dead"
-  ]
+  ],
+  "devDependencies": {
+    "file-loader": "^4.2.0"
+  }
 }

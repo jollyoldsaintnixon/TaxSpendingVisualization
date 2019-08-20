@@ -13,13 +13,14 @@ export const subData = (container_array, pie_num) => {
 
         // setting up the tax stack to comply with d3 v5
         let tax_stack = { 
-            tax_type: tax_type,
+            // tax_type: tax_type,
         }
         // setting up keys
         let keys = []
+        // keys.push(tax_type)
         sub_array.forEach((sub_tax, i) => {
             keys.push(sub_tax.key)
-            tax_stack[sub_tax.key] = sub_tax.amount
+            tax_stack[sub_tax.key] = sub_tax.percent_of_total
         });
 
 
@@ -43,50 +44,60 @@ export const subData = (container_array, pie_num) => {
             .keys(keys)
             .order(d3.stackOrderNone)
             .offset(d3.stackOffsetNone)
-
-        const layers = stack(sub_array)
+        let tax_stack_array = []
+        tax_stack_array.push(tax_stack)
+        const layers = stack(tax_stack_array)
 
         // const x = d3.scaleOrdinal()
         //     .domain(layers[0].map(d => d.x))
         //     // .range([10, width], 0)  // may be a quicker way to do this as there is only one bar
         //     .range([width])
-        const x = d3.scaleBand()
+        const xScale = d3.scaleLinear() 
+            .domain([0, 1])
             .range([0, width])
-            .padding(0.1)
+            
+        const colors = d3.scaleOrdinal()
+            .domain(keys)
+            .range(["#952846", "#461188"])
 
-        const y = d3.scaleLinear()
-            .domain(layers[0].map(d => {
-                return d3.max(d, d => d.y0 + d.y)  // the increment up to the total
-            })).range([height, 0])
+        const yScale = d3.scaleLinear()
+            .domain([0, d3.sum(Object.values(tax_stack))])  // the increment up to the total
+            // .range([height, 0])
+            .range([0, height])
 
         const g = svg.selectAll(".sub-taxes")  // no g at this point, but they will have this class
-            .data(layers).enter()  // now there will be a g for every obj in sub_array.  should be just one g
+            .data(layers).enter()  // now there will be a g for every bar within the graph.
             .append("g").attr("class", "sub-taxes")  
+            // .attr('fill', (d, i) => colors[i])
             
         const rect = g.selectAll("rect")  // making each obj of the correspond to a rect within the g
-            .data(d => d) // pulling out each individual obj
+            .data(layer => layer) // pulling out each individual obj
             .enter().append("rect")
-            .attr('x', d => x(d.x))  // passing each obj's x value to the d3 x function defined above
-            .attr('y', d => y(d.y + d.y0))  // y0 is the height where each segment in the stack starts
-            .attr('width', x.range())  // probably can hard code, since only one bar
-            .attr('height', d => y(d.y0) - y(d.y0 + d.y))  // height is set to the starting point plus the height, and all that subtracted from the starting point due to y values begining at top of screen
-            .on('mouseover', () => tooltip.style("display", true))  // want the info box to switch between visible and inivis based on mouseover
-            .on('mouseout', () => tooltip.style("display", "none"))
-            .on('mousemove', d => {  // this is going to be a sweet effect!
-                const xPos = d3.mouse(this)[0] - (tooltipWidth / 2) // this[0] corresponds to mouse's x pos, and pushing it left by half of the tooltip's width ensure it is centered
-                const yPos = d3.mouse(this)[1] - 25 // puts the tooltip up a bit above the cursor
-                tooltip.attr("transform", "translate(" + xPos + ',' + yPos + ')')
-                tooltip.select('text').text(d.percent) // shows the percent  
-            })
+            .attr('x', d => xScale(0))  // passing each obj's x value to the d3 x function defined above
+            .attr('y', layer => {
+                debugger
+                return height - yScale(layer[1])})  // y0 is the height where each segment in the stack starts
+            .attr('width', xScale(1))  // probably can hard code, since only one bar
+            .attr('height', bar => {
+                debugger
+                return yScale(bar[1] - bar[0])})  // height is set to the starting point plus the height, and all that subtracted from the starting point due to y values begining at top of screen
+        //     .on('mouseover', () => tooltip.style("display", true))  // want the info box to switch between visible and inivis based on mouseover
+        //     .on('mouseout', () => tooltip.style("display", "none"))
+        //     .on('mousemove', d => {  // this is going to be a sweet effect!
+        //         const xPos = d3.mouse(this)[0] - (tooltipWidth / 2) // this[0] corresponds to mouse's x pos, and pushing it left by half of the tooltip's width ensure it is centered
+        //         const yPos = d3.mouse(this)[1] - 25 // puts the tooltip up a bit above the cursor
+        //         tooltip.attr("transform", "translate(" + xPos + ',' + yPos + ')')
+        //         tooltip.select('text').text(d.percent) // shows the percent  
+        //     })
 
-        const tooltip = svg.append('g') // setting up this sweet tooltip. Exciting!
-            .attr('class', 'sub-data-tooltip tooltip').style('display', 'none') // starts invisible
-            // adding the dimensions of the box
-            .append('rect').attr('width', tooltipWidth)
-            .attr('height', tooltipHeight).attr('fill', 'white').style('opacity', 0.5) // making it partially see-through
-            // adding the text content
-            .append('text').attr('x', 15)
-            .attr('dy', '.8em').style('text-anchor', 'middle')
+        // const tooltip = svg.append('g') // setting up this sweet tooltip. Exciting!
+        //     .attr('class', 'sub-data-tooltip tooltip').style('display', 'none') // starts invisible
+        //     // adding the dimensions of the box
+        //     .append('rect').attr('width', tooltipWidth)
+        //     .attr('height', tooltipHeight).attr('fill', 'white').style('opacity', 0.5) // making it partially see-through
+        //     // adding the text content
+        //     .append('text').attr('x', 15)
+        //     .attr('dy', '.8em').style('text-anchor', 'middle')
     }
     
 }
