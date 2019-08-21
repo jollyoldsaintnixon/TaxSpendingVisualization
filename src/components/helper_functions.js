@@ -1,4 +1,4 @@
-
+import { CIRCLE_COLORS } from './pie_chart_generator'
 
 export const assignBox = (array_of_objs, pie_num) => {
     const side = pie_num === 1 ? 'left-box-' : 'right-box-'
@@ -114,6 +114,8 @@ export const subArrayLocator = (tax_type, container_array) => {  // helper funct
             return container_array[2]
         case "Other Taxes":
             return container_array[3]
+        case "Property Taxes":
+            return container_array[4]
     }
 }
 

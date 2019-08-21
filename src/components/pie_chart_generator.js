@@ -4,7 +4,7 @@
 import { assignBox, findAmount, budgetCircle } from './helper_functions'
 import { subData } from './subdata_generator'
 // 
-const COLORS = ["#a6751e", "#9a0047", "#66a51e", "#7470b3", "#e82b8a"]
+export const COLORS = ["#a6751e", "#9a0047", "#66a51e", "#7470b3", "#e82b8a"]
 export const CIRCLE_COLORS = [COLORS[1], COLORS[0], COLORS[4], COLORS[2], COLORS[3]]
 // export const LABELS = ["Property Taxes", "Sales and Gross Receipts Taxes", "License Taxes", "Income Taxes", "Other Taxes"]
 export const LABELS = ["Other Taxes", "Income Taxes", "License Taxes", "Property Taxes", "Sales Taxes"]
@@ -67,6 +67,7 @@ export function PieChartGenerator(state, tax_type, pie_num, csv = "./src/assets/
         let license_taxes = []
         let income_taxes = []
         let other_taxes = []
+        let property_taxes = []
         // let sales_tax_obj = { tax_group: LABELS[4] }
         // parse the csv
         data.forEach((d, i) => {
@@ -76,7 +77,7 @@ export function PieChartGenerator(state, tax_type, pie_num, csv = "./src/assets/
                     TOTAL = d.AMOUNT.split(',').join('') * 1000;
                 }
                 
-                if (d.item != "T00" && d.item != "T01") {  // don't want to catch Total or Property Taxes
+                if (d.item != "T00") {  // don't want to catch Total or Property Taxes
                     let tax_obj = {
                         key: d.Tax_Type,
                         amount: findAmount(d.AMOUNT),
@@ -85,7 +86,9 @@ export function PieChartGenerator(state, tax_type, pie_num, csv = "./src/assets/
 
                     switch (d.item.slice(0,2)) { // fill up sub arrays
                         case "T0":
-                            sales_taxes.push(tax_obj)            
+                            if (d.item === "T09") { sales_taxes.push(tax_obj) }
+                            debugger
+                            if (d.item === "T01") { property_taxes.push(tax_obj) }
                             // sales_tax_obj[d.Tax_Type] = findAmount(d.AMOUNT)
                             break;
                         case "T1":
@@ -126,6 +129,7 @@ export function PieChartGenerator(state, tax_type, pie_num, csv = "./src/assets/
         container_array.push(license_taxes)
         container_array.push(income_taxes)
         container_array.push(other_taxes)
+        container_array.push(property_taxes)
         // set h1 after total has been defined
         h1.text(state + "'s tax revenue for 2018 was ")
         span.text("$" + d3.format(',')(TOTAL))
@@ -177,7 +181,7 @@ export function PieChartGenerator(state, tax_type, pie_num, csv = "./src/assets/
             // h2.text("")
         })
         .on('click', subData(container_array, pie_num))
-
+        console.log(pie_num)
         const span1 = document.getElementById('totals-span-1')
         const span2 = document.getElementById('totals-span-2')
 

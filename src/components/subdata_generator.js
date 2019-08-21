@@ -1,17 +1,17 @@
 import { subArrayLocator, LightenDarkenColor } from './helper_functions'
+import { CIRCLE_COLORS } from './pie_chart_generator';
 
 export const subData = (container_array, pie_num, color_string = "#3F6D2A") => {
     // a lot of this code was learned from Michael Stanaland's "Stacked bar chart with tooltips" tutorial at http://bl.ocks.org/mstanaland/6100713
     return (ele) => {
-        // debugger
-        const tax_type = ele.data.key
+        debugger
 
+        const tax_type = ele.data.key
+        color_string = colorChooser(tax_type)
         const sub_array = subArrayLocator(tax_type, container_array)
 
-        // setting up the tax stack to comply with d3 v5
-        let tax_stack = {
-            // tax_type: tax_type,
-        }
+        
+        let tax_stack = {}
         // setting up keys
         let keys = []
         // keys.push(tax_type)
@@ -21,12 +21,13 @@ export const subData = (container_array, pie_num, color_string = "#3F6D2A") => {
         });
 
         const width = 90  // setting the dimensions to correspond to the pie charts'
-        const height = 600
+        const height = 500
 
         const tooltipWidth = 120 // will alter these as needed
         const tooltipHeight = 40
-
-        const svg = d3.select("pie-" + pie_num).append("svg")
+        
+        const svg = d3.select("#sub-data-" + pie_num)
+            .append("svg") 
             .attr("width", width).attr("height", height)
             .append("g").attr('class', 'sub-data-' + pie_num)
 
@@ -113,6 +114,22 @@ export const subData = (container_array, pie_num, color_string = "#3F6D2A") => {
         //     .append('text').attr('x', 15)
         //     .attr('dy', '.8em').style('text-anchor', 'middle')
     }
+}
 
+
+
+const colorChooser = (tax_type) => {
+    switch (tax_type) {
+        case "Sales and Gross Receipts Taxes":
+            return CIRCLE_COLORS[4]
+        case 'Property Taxes':
+            return CIRCLE_COLORS[3]
+        case "License Taxes":
+            return CIRCLE_COLORS[2]
+        case 'Income Taxes':
+            return CIRCLE_COLORS[1]
+        case 'Other Taxes':
+            return CIRCLE_COLORS[0]
+    }
 }
 

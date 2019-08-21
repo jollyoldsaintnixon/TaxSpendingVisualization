@@ -1,8 +1,24 @@
-[class*='sub-data-list-'] {
-    background: orange;
+.sub-data-container {
+    display: flex;
+    position: relative;
+    bottom: 553px;
 }
 
-[class*='sub-data-list-'] li {
-    display: block;
-    width: 90px
+.sub-data-1 {
+    position: absolute;
+    right: 355px;
 }
+
+.sub-data-2 {
+    position: absolute;
+    left: 355px;
+}
+
+// [class*='sub-data-list-'] {
+//     background: orange;
+// }
+
+// [class*='sub-data-list-'] li {
+//     display: block;
+//     width: 90px
+// }
