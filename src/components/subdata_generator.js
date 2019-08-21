@@ -80,8 +80,9 @@ export const subData = (container_array, pie_num, color_string = "#3F6D2A") => {
         //     return colors(d)})
 
         const rect = g.selectAll("rect")  // making each obj of the correspond to a rect within the g
-            .data(layer => layer) // pulling out each individual obj
-            .enter().append("rect")
+            .data(layer => layer); // pulling out each individual obj
+        rect.exit().remove();
+        rect.enter().append("rect")
             .attr('x', d => xScale(0))  // passing each obj's x value to the d3 x function defined above
             .attr('y', layer => {
                 // debugger
