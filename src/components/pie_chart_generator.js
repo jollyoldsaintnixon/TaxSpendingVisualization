@@ -2,7 +2,7 @@
 // The legend code was from Crypters Infotech's youtube tutorial "Pie Chart using D3.js"
 
 import { assignBox, findAmount, budgetCircle } from './helper_functions'
-import { subData, cssSubDataDisplay } from './event_handlers'
+import { subData } from './subdata_generator'
 // 
 const COLORS = ["#a6751e", "#9a0047", "#66a51e", "#7470b3", "#e82b8a"]
 export const CIRCLE_COLORS = [COLORS[1], COLORS[0], COLORS[4], COLORS[2], COLORS[3]]
