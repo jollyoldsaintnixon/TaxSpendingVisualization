@@ -2,7 +2,7 @@
 // The legend code was from Crypters Infotech's youtube tutorial "Pie Chart using D3.js"
 
 import { assignBox, findAmount, budgetCircle } from './helper_functions'
-import { subData } from './subdata_generator'
+import { subData, updateSubData } from './subdata_generator'
 // 
 export const COLORS = ["#a6751e", "#9a0047", "#66a51e", "#7470b3", "#e82b8a"]
 export const CIRCLE_COLORS = [COLORS[1], COLORS[0], COLORS[4], COLORS[2], COLORS[3]]
@@ -13,7 +13,6 @@ export function PieChartGenerator(state, tax_type, pie_num, csv = "./src/assets/
 
     // const remove = document.getElementById("totals-" + pie_num)
     // remove ? remove.parentNode.removeChild(remove) : null
-
     // const remove2 = document.getElementById("details-" + pie_num)
     // remove2 ? remove2.parentNode.removeChild(remove2) : null
 
@@ -87,7 +86,6 @@ export function PieChartGenerator(state, tax_type, pie_num, csv = "./src/assets/
                     switch (d.item.slice(0,2)) { // fill up sub arrays
                         case "T0":
                             if (d.item === "T09") { sales_taxes.push(tax_obj) }
-                            debugger
                             if (d.item === "T01") { property_taxes.push(tax_obj) }
                             // sales_tax_obj[d.Tax_Type] = findAmount(d.AMOUNT)
                             break;
@@ -130,6 +128,8 @@ export function PieChartGenerator(state, tax_type, pie_num, csv = "./src/assets/
         container_array.push(income_taxes)
         container_array.push(other_taxes)
         container_array.push(property_taxes)
+
+        updateSubData(container_array, pie_num)()
         // set h1 after total has been defined
         h1.text(state + "'s tax revenue for 2018 was ")
         span.text("$" + d3.format(',')(TOTAL))
@@ -169,6 +169,7 @@ export function PieChartGenerator(state, tax_type, pie_num, csv = "./src/assets/
             g.style("transform", "scaleY(-1)");
         }
         // event handlers
+        const sub_data_svg = d3.select('#sub-data-g-' + pie_num).selectAll('.sub-data-' + pie_num)
         g.on("mouseover", (d, i) => {  
             console.log(d)
             d3.select(this).transition()
@@ -180,7 +181,8 @@ export function PieChartGenerator(state, tax_type, pie_num, csv = "./src/assets/
             // h1.text(state + "'s tax revenue for 2018 was $" + d3.format(',')(TOTAL))
             // h2.text("")
         })
-        .on('click', subData(container_array, pie_num))
+        .on('click', updateSubData(container_array, pie_num))
+        // .on('click', updateSubData(container_array, sub_data_svg, pie_num))
         console.log(pie_num)
         const span1 = document.getElementById('totals-span-1')
         const span2 = document.getElementById('totals-span-2')

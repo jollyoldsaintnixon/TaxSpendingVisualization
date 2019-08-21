@@ -172,3 +172,14 @@ export const pSBC = (p, c0, c1, l) => {
     if (h) return "rgb" + (f ? "a(" : "(") + r + "," + g + "," + b + (f ? "," + m(a * 1000) / 1000 : "") + ")";
     else return "#" + (4294967296 + r * 16777216 + g * 65536 + b * 256 + (f ? m(a * 255) : 0)).toString(16).slice(1, f ? undefined : -2)
 }
+
+export const remove = (id) => {
+    const remove = document.getElementById(id)
+    remove ? remove.parentNode.removeChild(remove) : null
+}
+
+export const removeClass = className => {
+    const remove_list = document.getElementsByClassName(className)
+    debugger
+    remove_list.length ? remove_list.parentNode.removeChild(remove) : null
+}

@@ -1,35 +1,40 @@
-import { subArrayLocator, LightenDarkenColor } from './helper_functions'
+import { subArrayLocator, LightenDarkenColor, remove, removeClass } from './helper_functions'
 import { CIRCLE_COLORS } from './pie_chart_generator';
+
+const width = 90  // setting the dimensions to correspond to the pie charts'
+const height = 500
+
+const tooltipWidth = 120 // will alter these as needed
+const tooltipHeight = 40
 
 export const subData = (container_array, pie_num, color_string = "#3F6D2A") => {
     // a lot of this code was learned from Michael Stanaland's "Stacked bar chart with tooltips" tutorial at http://bl.ocks.org/mstanaland/6100713
-    return (ele) => {
-        debugger
+    // return (ele) => {
+    //     debugger
 
-        const tax_type = ele.data.key
-        color_string = colorChooser(tax_type)
-        const sub_array = subArrayLocator(tax_type, container_array)
+        // const tax_type = ele.data.key
+        // color_string = colorChooser(tax_type)
+        // const sub_array = subArrayLocator(tax_type, container_array)
 
         
-        let tax_stack = {}
-        // setting up keys
-        let keys = []
-        // keys.push(tax_type)
-        sub_array.forEach((sub_tax, i) => {
-            keys.push(sub_tax.key)
-            tax_stack[sub_tax.key] = sub_tax.percent_of_total
-        });
+        // let tax_stack = {}
+        // // setting up keys
+        // let keys = []
+        // // keys.push(tax_type)
+        // sub_array.forEach((sub_tax, i) => {
+        //     keys.push(sub_tax.key)
+        //     tax_stack[sub_tax.key] = sub_tax.percent_of_total
+        // });
+    remove('sub-data-svg-' + pie_num)
 
-        const width = 90  // setting the dimensions to correspond to the pie charts'
-        const height = 500
-
-        const tooltipWidth = 120 // will alter these as needed
-        const tooltipHeight = 40
-        
-        const svg = d3.select("#sub-data-" + pie_num)
-            .append("svg") 
-            .attr("width", width).attr("height", height)
-            .append("g").attr('class', 'sub-data-' + pie_num)
+    
+    const svg = d3.select("#sub-data-" + pie_num)
+        .append("svg") 
+        .attr("width", width).attr("height", height).attr('id', 'sub-data-svg-' + pie_num)
+        .append("g")
+        .attr('class', 'sub-data-' + pie_num).attr('id', 'sub-data-g-' + pie_num)
+    console.log(svg)
+    updateSubData(container_array, svg, pie_num)(null)
 
         // set the layers of the stacked bar
         // const layers = d3.stack()([tax_type].map(tax => {  // should ultimately just be the one layer
@@ -37,66 +42,66 @@ export const subData = (container_array, pie_num, color_string = "#3F6D2A") => {
         //         return { x: d.key, y: d.amount, percent: d.percent }
         //     })
         // }))
-        const stack = d3.stack()
-            .keys(keys)
-            .order(d3.stackOrderNone)
-            .offset(d3.stackOffsetNone)
-        let tax_stack_array = []
-        tax_stack_array.push(tax_stack)
-        const layers = stack(tax_stack_array)
+        // const stack = d3.stack()
+        //     .keys(keys)
+        //     .order(d3.stackOrderNone)
+        //     .offset(d3.stackOffsetNone)
+        // let tax_stack_array = []
+        // tax_stack_array.push(tax_stack)
+        // const layers = stack(tax_stack_array)
 
-        // const x = d3.scaleOrdinal()
-        //     .domain(layers[0].map(d => d.x))
-        //     // .range([10, width], 0)  // may be a quicker way to do this as there is only one bar
-        //     .range([width])
-        const xScale = d3.scaleLinear()
-            .domain([0, 1])
-            .range([0, width])
+        // // const x = d3.scaleOrdinal()
+        // //     .domain(layers[0].map(d => d.x))
+        // //     // .range([10, width], 0)  // may be a quicker way to do this as there is only one bar
+        // //     .range([width])
+        // const xScale = d3.scaleLinear()
+        //     .domain([0, 1])
+        //     .range([0, width])
 
-        // const colors = d3.scaleLinear()
-        //     .domain([1, 10])
-        //     .range(["red", "blue"])
+        // // const colors = d3.scaleLinear()
+        // //     .domain([1, 10])
+        // //     .range(["red", "blue"])
 
-        const colors = [color_string]
-        const decrement = 100 / keys.length
-        let next_color = LightenDarkenColor(color_string, decrement)
-        while (colors.length < keys.length) {
-            colors.push(next_color)
-            next_color = LightenDarkenColor(next_color, decrement)
-        }
+        // const colors = [color_string]
+        // const decrement = 100 / keys.length
+        // let next_color = LightenDarkenColor(color_string, decrement)
+        // while (colors.length < keys.length) {
+        //     colors.push(next_color)
+        //     next_color = LightenDarkenColor(next_color, decrement)
+        // }
 
-        console.log(colors)
+        // console.log(colors)
 
-        const yScale = d3.scaleLinear()
-            .domain([0, d3.sum(Object.values(tax_stack))])  // the increment up to the total
-            // .range([height, 0])
-            .range([0, height])
+        // const yScale = d3.scaleLinear()
+        //     .domain([0, d3.sum(Object.values(tax_stack))])  // the increment up to the total
+        //     // .range([height, 0])
+        //     .range([0, height])
 
-        const g = svg.selectAll(".sub-taxes")  // no g at this point, but they will have this class
-            .data(layers).enter()  // now there will be a g for every bar within the graph.
-            .append("g").attr("class", "sub-taxes")
-        // .attr('fill', d => {
-        //     // debugger
-        //     return colors(d)})
+        // const g = svg.selectAll(".sub-taxes")  // no g at this point, but they will have this class
+        //     .data(layers).enter()  // now there will be a g for every bar within the graph.
+        //     .append("g").attr("class", "sub-taxes")
+        // // .attr('fill', d => {
+        // //     // debugger
+        // //     return colors(d)})
 
-        const rect = g.selectAll("rect")  // making each obj of the correspond to a rect within the g
-            .data(layer => layer); // pulling out each individual obj
-        rect.exit().remove();
-        rect.enter().append("rect")
-            .attr('x', d => xScale(0))  // passing each obj's x value to the d3 x function defined above
-            .attr('y', layer => {
-                // debugger
-                return height - yScale(layer[1])
-            })  // y0 is the height where each segment in the stack starts
-            .attr('width', xScale(1))  // probably can hard code, since only one bar
-            .attr('height', bar => {
-                // debugger
-                return yScale(bar[1] - bar[0])
-            })
-            .attr('fill', d => {
-                // debugger
-                return colors.pop()
-            })  // height is set to the starting point plus the height, and all that subtracted from the starting point due to y values begining at top of screen
+        // const rect = g.selectAll("rect")  // making each obj of the correspond to a rect within the g
+        //     .data(layer => layer); // pulling out each individual obj
+        // rect.exit().remove();
+        // rect.enter().append("rect")
+        //     .attr('x', d => xScale(0))  // passing each obj's x value to the d3 x function defined above
+        //     .attr('y', layer => {
+        //         // debugger
+        //         return height - yScale(layer[1])
+        //     })  // y0 is the height where each segment in the stack starts
+        //     .attr('width', xScale(1))  // probably can hard code, since only one bar
+        //     .attr('height', bar => {
+        //         // debugger
+        //         return yScale(bar[1] - bar[0])
+        //     })
+        //     .attr('fill', d => {
+        //         // debugger
+        //         return colors.pop()
+        //     })  // height is set to the starting point plus the height, and all that subtracted from the starting point due to y values begining at top of screen
         //     .on('mouseover', () => tooltip.style("display", true))  // want the info box to switch between visible and inivis based on mouseover
         //     .on('mouseout', () => tooltip.style("display", "none"))
         //     .on('mousemove', d => {  // this is going to be a sweet effect!
@@ -114,10 +119,123 @@ export const subData = (container_array, pie_num, color_string = "#3F6D2A") => {
         //     // adding the text content
         //     .append('text').attr('x', 15)
         //     .attr('dy', '.8em').style('text-anchor', 'middle')
-    }
+    // }
 }
 
+export const updateSubData = (container_array, pie_num) => {
+    
+    return (ele) => {
 
+        remove('sub-data-svg-' + pie_num)
+
+
+        const svg = d3.select("#sub-data-" + pie_num)
+            .append("svg")
+            .attr("width", width).attr("height", height).attr('id', 'sub-data-svg-' + pie_num)
+            .append("g")
+            .attr('class', 'sub-data-' + pie_num).attr('id', 'sub-data-g-' + pie_num)
+
+
+
+        
+        const tax_type = ele ? ele.data.key : "Sales and Gross Receipts Taxes"
+        const color_string = colorChooser(tax_type)
+        const sub_array = subArrayLocator(tax_type, container_array)
+        let count = 0
+    
+        let tax_stack = {}
+        // setting up keys
+        let keys = []
+        // keys.push(tax_type)
+        sub_array.forEach((sub_tax, i) => {
+            keys.push(sub_tax.key)
+            tax_stack[sub_tax.key] = sub_tax.percent_of_total
+        });
+    
+        const stack = d3.stack()
+            .keys(keys)
+            .order(d3.stackOrderNone)
+            .offset(d3.stackOffsetNone)
+        let tax_stack_array = []
+        tax_stack_array.push(tax_stack)
+        const layers = stack(tax_stack_array)
+    
+        // const x = d3.scaleOrdinal()
+        //     .domain(layers[0].map(d => d.x))
+        //     // .range([10, width], 0)  // may be a quicker way to do this as there is only one bar
+        //     .range([width])
+        const xScale = d3.scaleLinear()
+            .domain([0, 1])
+            .range([0, width])
+    
+        // const colors = d3.scaleLinear()
+        //     .domain([1, 10])
+        //     .range(["red", "blue"])
+
+        const new_colors = d3.scaleLinear().domain([0, keys.length])
+            .range(["white", color_string])
+        
+        // const colors = [color_string]
+        // const decrement = 100 / keys.length
+        // let next_color = LightenDarkenColor(color_string, decrement)
+        // while (colors.length < keys.length) {
+        //     colors.push(next_color)
+        //     next_color = LightenDarkenColor(next_color, decrement)
+        // }
+    
+        console.log(colors)
+    
+        const yScale = d3.scaleLinear()
+            .domain([0, d3.sum(Object.values(tax_stack))])  // the increment up to the total
+            // .range([height, 0])
+            .range([0, height])
+    
+        const g = svg.selectAll(".sub-taxes-" + pie_num)  // no g at this point, but they will have this class
+            .data(layers).enter()  // now there will be a g for every bar within the graph.
+            .append("g")
+            .attr("class", "sub-taxes-" + pie_num)
+        // .attr('fill', d => {
+            
+        //     return colors(d)})
+    
+        const rect = g.selectAll("rect")  // making each obj of the correspond to a rect within the g
+            .data(layer => layer); // pulling out each individual obj
+            rect.exit().remove();
+            rect.enter().append("rect")
+                .attr('x', d => xScale(0))
+                .attr('width', xScale(1))  // probably can hard code, since only one bar
+                .merge(rect)
+
+            // .attr('y', layer => {
+            //     return height - yScale(layer[1])
+            // })
+            // .attr('width', xScale(1))
+            // .attr('height', bar => {
+            //     return yScale(bar[1] - bar[0])
+            // })
+            // .attr('fill', d => {
+            //     // debugger
+            //     return colors.pop()
+            // }) 
+            .transition()
+            .duration(500)
+            .attr('x', d => xScale(0))  // passing each obj's x value to the d3 x function defined above
+            .attr('y', layer => {
+                
+                return height - yScale(layer[1])
+            })  // y0 is the height where each segment in the stack starts
+            .attr('width', xScale(1))  // probably can hard code, since only one bar
+            .attr('height', bar => {
+                
+                return yScale(bar[1] - bar[0])
+            })
+            .attr('fill', (d, i) => {
+                return new_colors(++count)
+            }) 
+
+    }
+
+}
 
 const colorChooser = (tax_type) => {
     switch (tax_type) {
