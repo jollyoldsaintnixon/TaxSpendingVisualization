@@ -134,6 +134,7 @@ export const updateSubData = (container_array, pie_num) => {
             .attr("width", width).attr("height", height).attr('id', 'sub-data-svg-' + pie_num)
             .append("g")
             .attr('class', 'sub-data-' + pie_num).attr('id', 'sub-data-g-' + pie_num)
+            // .style("transform", "scaleY(-1)")
 
 
 
@@ -181,10 +182,7 @@ export const updateSubData = (container_array, pie_num) => {
         // while (colors.length < keys.length) {
         //     colors.push(next_color)
         //     next_color = LightenDarkenColor(next_color, decrement)
-        // }
-    
-        console.log(colors)
-    
+        // }    
         const yScale = d3.scaleLinear()
             .domain([0, d3.sum(Object.values(tax_stack))])  // the increment up to the total
             // .range([height, 0])
@@ -194,6 +192,7 @@ export const updateSubData = (container_array, pie_num) => {
             .data(layers).enter()  // now there will be a g for every bar within the graph.
             .append("g")
             .attr("class", "sub-taxes-" + pie_num)
+            
         // .attr('fill', d => {
             
         //     return colors(d)})
@@ -204,6 +203,17 @@ export const updateSubData = (container_array, pie_num) => {
             rect.enter().append("rect")
                 .attr('x', d => xScale(0))
                 .attr('width', xScale(1))  // probably can hard code, since only one bar
+                // .attr('y', bar => {
+
+                //     return yScale(bar[1] - bar[0])
+                // }).attr('height', bar => {
+
+                //     return yScale(bar[1] - bar[0])
+                // })
+                // .attr('y', layer => {
+
+                //     return height - yScale(layer[1])
+                // }) 
                 .merge(rect)
 
             // .attr('y', layer => {
@@ -232,7 +242,62 @@ export const updateSubData = (container_array, pie_num) => {
             .attr('fill', (d, i) => {
                 return new_colors(++count)
             }) 
+            count = 0
+            
+            const tooltip = svg.append('g') // setting up this sweet tooltip. Exciting!
+            .attr('class', 'sub-data-tooltip tooltip').style('display', 'none') // starts invisible
+            // adding the dimensions of the box
+            .append('rect').attr('width', tooltipWidth)
+            .attr('height', tooltipHeight).attr('fill', 'white').style('opacity', 0.5) // making it partially see-through
+            // adding the text content
+            .append('text').attr('x', 15)
+            .attr('dy', '.8em').style('text-anchor', 'middle')
+            
+            svg.on('mouseover', () => {
+                debugger
+                return tooltip.style("display", true)})  // want the info box to switch between visible and inivis based on mouseover
+            svg.on('mouseout', () => tooltip.style("display", "none"))
+            svg.on('mousemove', d => {  // this is going to be a sweet effect!
+                    const mouse = d3.mouse(this)
+                    const xPos = mouse[0] - (tooltipWidth / 2) // this[0] corresponds to mouse's x pos, and pushing it left by half of the tooltip's width ensure it is centered
+                    const yPos = mouse[1] - 25 // puts the tooltip up a bit above the cursor
+                    tooltip.attr("transform", "translate(" + xPos + ',' + yPos + ')')
+                    tooltip.select('text').text(d.percent_of_total) // shows the percent  
+                })
 
+        var legend = d3.select("#sub-data-" + pie_num)
+            .append('svg')
+            .append('g')
+            .attr('class', 'legend')
+            // .attr('transform', 'translate(' + (padding + 12) + ', 0)');
+
+        legend.selectAll('rect')
+            .data(keys.reverse())
+            .enter()
+            .insert('rect')
+            .attr('x', 0)
+            .attr('y', function (d, i) {
+                return i * 18;
+            })
+            .attr('width', 12)
+            .attr('height', 12)
+            .attr('fill', function (d, i) {
+                return new_colors(++count)
+            });
+
+        legend.selectAll('text')
+            .data(keys.reverse())
+            .enter()
+            .insert('text')
+            .text(function (d) {
+                return d;
+            })
+            .attr('x', 18)
+            .attr('y', function (d, i) {
+                return i * 18;
+            })
+            .attr('text-anchor', 'start')
+            .attr('alignment-baseline', 'hanging');
     }
 
 }
