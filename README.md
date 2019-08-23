@@ -53,4 +53,5 @@ Phase 3) (2-3 days)
 ### Resources
 
   Revenue 2018: https://www.census.gov/data/tables/2018/econ/stc/2018-annual.html
+  TA Ben spent hours helping me figure out d3
 

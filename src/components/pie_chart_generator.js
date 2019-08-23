@@ -1,7 +1,8 @@
 // A lot of this code was based heavily off of Karthik Thota's youtube tutorial "Introduction to d3.js = Pie Chart and Donut Chart"
 // The legend code was from Crypters Infotech's youtube tutorial "Pie Chart using D3.js"
 
-import { assignBox, findAmount, budgetCircle } from './helper_functions'
+import { assignBox, findAmount } from './helper_functions'
+import { budgetCircle } from './budget_circle'
 import { subData, updateSubData } from './subdata_generator'
 // 
 export const COLORS = ["#a6751e", "#9a0047", "#66a51e", "#7470b3", "#e82b8a"]
@@ -9,7 +10,7 @@ export const CIRCLE_COLORS = [COLORS[1], COLORS[0], COLORS[4], COLORS[2], COLORS
 // export const LABELS = ["Property Taxes", "Sales and Gross Receipts Taxes", "License Taxes", "Income Taxes", "Other Taxes"]
 export const LABELS = ["Other Taxes", "Income Taxes", "License Taxes", "Property Taxes", "Sales Taxes"]
 // export function PieChartGenerator(csvPath, sector, amount, state, multiplier = 1, skip = 1) {
-export function PieChartGenerator(state, tax_type, pie_num, csv = "./src/assets/data/FY2018-STC-Detailed-Table.csv") {
+export function PieChartGenerator(state, tax_type, pie_num, csv = "./src/assets/data/FY2018-STC-Detailed-Table.csv", update = true) {
 
     // const remove = document.getElementById("totals-" + pie_num)
     // remove ? remove.parentNode.removeChild(remove) : null
@@ -135,7 +136,7 @@ export function PieChartGenerator(state, tax_type, pie_num, csv = "./src/assets/
         span.text("$" + d3.format(',')(TOTAL))
         h2.text("")
         // attempt budgetCircle call
-        budgetCircle(TOTAL)
+        // budgetCircle(TOTAL)
         // set up the percentages in the center box
         assignBox(TYPES, pie_num)
 
@@ -151,7 +152,7 @@ export function PieChartGenerator(state, tax_type, pie_num, csv = "./src/assets/
             .style("fill", d => colors(d.data.key))
             .transition()
             .ease(d3.easeLinear)
-            .duration(500)
+            .duration(750)
             .attrTween('d', pieTween);
         
         // path.on("mouseover", (d, i) => {  // why doesn't this work?
@@ -181,7 +182,7 @@ export function PieChartGenerator(state, tax_type, pie_num, csv = "./src/assets/
             // h1.text(state + "'s tax revenue for 2018 was $" + d3.format(',')(TOTAL))
             // h2.text("")
         })
-        .on('click', updateSubData(container_array, pie_num))
+        .on('click', updateSubData(container_array, pie_num, true))
         // .on('click', updateSubData(container_array, sub_data_svg, pie_num))
         console.log(pie_num)
         const span1 = document.getElementById('totals-span-1')
@@ -191,7 +192,7 @@ export function PieChartGenerator(state, tax_type, pie_num, csv = "./src/assets/
             && span2.innerText) {
             const total1 = parseInt(span1.innerText.slice(1).split(',').join(''))
             const total2 = parseInt(span2.innerText.slice(1).split(',').join(''))
-            budgetCircle(total1, total2)
+            budgetCircle(total1, total2, update)
         }       
                 
     })
