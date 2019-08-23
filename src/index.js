@@ -1,4 +1,4 @@
-
+import { tooltipCreator } from './components/subdata_generator'
 import { PieChartGenerator } from './components/pie_chart_generator'
 import { pieLegend } from './components/pie_legend'
 import { state_selector, TOP_LEVEL } from './components/state_selector'
@@ -23,6 +23,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
     PieChartGenerator("Alabama", TOP_LEVEL, 1, "./src/assets/data/FY2018-STC-Detailed-Table.csv", false)
     PieChartGenerator("Wyoming", TOP_LEVEL, 2, "./src/assets/data/FY2018-STC-Detailed-Table.csv", false)
-
+    // tooltipCreator(1)
+    // tooltipCreator(2)
     
 })
