@@ -99,6 +99,7 @@ $zero: lighten($four, 60%);
 
 .master-list li {
     margin: 10px 15px;
+    font-family: var(--sans)
 }
 
 .text-list {
@@ -118,10 +119,14 @@ $zero: lighten($four, 60%);
 .left-list li {
     text-align: right;
     margin-right: -5px;
+      font-size: 1.2em;
+  font-weight: bolder;
 }
 
 .right-list li {
     margin-left: -5px;
+      font-size: 1.2em;
+  font-weight: bolder;
 }
 
 .box {

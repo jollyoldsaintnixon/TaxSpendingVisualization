@@ -4,8 +4,9 @@
 import { assignBox, findAmount } from './helper_functions'
 import { budgetCircle } from './budget_circle'
 import { subData, updateSubData } from './subdata_generator'
+import { tooltipCreator } from './subdata_generator'
 // 
-export const COLORS = ["#a6751e", "#9a0047", "#66a51e", "#7470b3", "#e82b8a"]
+export const COLORS = ["#a6751e", "#9a0047", "#66a51e", "#ee7731", "#e82b8a"]
 export const CIRCLE_COLORS = [COLORS[1], COLORS[0], COLORS[4], COLORS[2], COLORS[3]]
 // export const LABELS = ["Property Taxes", "Sales and Gross Receipts Taxes", "License Taxes", "Income Taxes", "Other Taxes"]
 export const LABELS = ["Other Taxes", "Income Taxes", "License Taxes", "Property Taxes", "Sales Taxes"]
@@ -130,7 +131,7 @@ export function PieChartGenerator(state, tax_type, pie_num, csv = "./src/assets/
         container_array.push(other_taxes)
         container_array.push(property_taxes)
 
-        updateSubData(container_array, pie_num)()
+        updateSubData(container_array, pie_num)
         // set h1 after total has been defined
         h1.text(state + "'s tax revenue for 2018 was ")
         span.text("$" + d3.format(',')(TOTAL))
@@ -182,7 +183,7 @@ export function PieChartGenerator(state, tax_type, pie_num, csv = "./src/assets/
             // h1.text(state + "'s tax revenue for 2018 was $" + d3.format(',')(TOTAL))
             // h2.text("")
         })
-        .on('click', updateSubData(container_array, pie_num, true))
+        .on('click', handleClick(container_array, pie_num))
         // .on('click', updateSubData(container_array, sub_data_svg, pie_num))
         console.log(pie_num)
         const span1 = document.getElementById('totals-span-1')
@@ -203,6 +204,13 @@ export function PieChartGenerator(state, tax_type, pie_num, csv = "./src/assets/
         const i = d3.interpolate({ startAngle: 0, endAngle: 0 }, b)
         return (t) => { return arc(i(t)) }
     }    
-            
-        }
+}
+
+const handleClick = (container_array, pie_num) => {
+    return ele => {
+        
+        updateSubData(container_array, pie_num, ele)
+        tooltipCreator(pie_num, ele.data.Tax_Type, ele.data.percent)
+    }
+}
         

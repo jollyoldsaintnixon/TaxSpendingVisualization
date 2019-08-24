@@ -12,7 +12,7 @@
 
 [class*='sub-data-svg-'] {
     position: absolute;
-        bottom: -15px;
+        bottom: 2px;
       transform: rotate(180deg)
 }
 
@@ -52,18 +52,28 @@
     justify-content: center;
     width: 100%;
     position: relative;
-      bottom: 235px;
+      bottom: 248px;
 
-    ul {
-        width: 292px;
-        padding-left: 18px;
-        margin: 0px 20px;
-        display: block;
+     > ul {
+        width: 312px;
+        padding: 5px;
+        margin: 0px 10px;
+        display: flex;
         box-sizing: content-box;
         color: white;
         overflow-wrap: break-word;
-        height: 50px;
+        height: 130px;
         font-family: var(--sans);
         font-size: 1.2em;
+        flex-direction: column;
+        justify-content: space-between;
+        li:first-of-type {
+            font-size: 1.2em;
+            text-align: center;
+        }
+    }
+    p {
+        font-family: var(--serif);
     }
 }
+

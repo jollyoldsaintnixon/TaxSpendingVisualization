@@ -1,4 +1,4 @@
-import { subArrayLocator, LightenDarkenColor, remove, removeClass } from './helper_functions'
+import { subArrayLocator, percentify, LightenDarkenColor, remove, removeClass } from './helper_functions'
 import { CIRCLE_COLORS, LABELS } from './pie_chart_generator';
 import { subDataLegend } from './sub_data_legend'
 
@@ -10,26 +10,26 @@ const height = 750
 const tooltipWidth = 120 // will alter these as needed
 const tooltipHeight = 40
 
-export const subData = (container_array, pie_num, color_string = "#3F6D2A") => {
-    // a lot of this code was learned from Michael Stanaland's "Stacked bar chart with tooltips" tutorial at http://bl.ocks.org/mstanaland/6100713
+// export const subData = (container_array, pie_num, color_string = "#3F6D2A") => {
+//     // a lot of this code was learned from Michael Stanaland's "Stacked bar chart with tooltips" tutorial at http://bl.ocks.org/mstanaland/6100713
 
-    remove('sub-data-svg-' + pie_num)
-    remove('sub-data-legend-svg-' + pie_num)
+//     remove('sub-data-svg-' + pie_num)
+//     remove('sub-data-legend-svg-' + pie_num)
 
     
-    const svg = d3.select("#sub-data-" + pie_num)
-        .append("svg") 
-        .attr("width", width).attr("height", height).attr('id', 'sub-data-svg-' + pie_num)
-        .append("g")
-        .attr('class', 'sub-data-' + pie_num).attr('id', 'sub-data-g-' + pie_num)
-    console.log(svg)
-    updateSubData(container_array, svg, pie_num)(null)
+//     const svg = d3.select("#sub-data-" + pie_num)
+//         .append("svg") 
+//         .attr("width", width).attr("height", height).attr('id', 'sub-data-svg-' + pie_num)
+//         .append("g")
+//         .attr('class', 'sub-data-' + pie_num).attr('id', 'sub-data-g-' + pie_num)
+//     console.log(svg)
+//     updateSubData(container_array, svg, pie_num)(null)
+// }
 
-}
 
-export const updateSubData = (container_array, pie_num) => {
+export const updateSubData = (container_array, pie_num, ele) => {
     
-    return (ele) => {
+    // return (ele) => {
 
         remove('sub-data-svg-' + pie_num)
         remove('sub-data-legend-svg-' + pie_num)
@@ -42,7 +42,6 @@ export const updateSubData = (container_array, pie_num) => {
             .append("g")
             .attr('class', 'sub-data-' + pie_num).attr('id', 'sub-data-g-' + pie_num)
             // .style("transform", "scaleY(-1)")
-
 
 
         
@@ -136,7 +135,7 @@ export const updateSubData = (container_array, pie_num) => {
     legendCreator(pie_num, keys, new_colors)
     // subDataLegend(new_colors, )
 
-    }
+    // }
 
 }
 
@@ -155,36 +154,36 @@ const colorChooser = (tax_type) => {
     }
 }
 
-export const tooltipCreator = (pie_num, tax_type) => {
-    // const vanilla_tooltip = document.createElement('p')
-    // vanilla_tooltip.classList.add('sub-data-tooltip', `tooltip`, `hidden`)
-
-    // // const over_svg = d3.select('#sub-data-svg-' + pie_num)
-    const vanilla_svg = document.getElementById('sub-data-svg-' + pie_num)
+export const tooltipCreator = (pie_num, tax_type, percent) => {
     const sub_data_details = document.getElementById(`data-details-type-${pie_num}`)
     const relative_percent_details = document.getElementById(`relative-percent-${pie_num}`)
     const overall_percent_details = document.getElementById(`overall-percent-${pie_num}`)
-    
-    if (!sub_data_details.innerHTML) {
-        sub_data_details.innerHTML = 'Click on a section of the pie chart to see how that tax category breaks down'
-        relative_percent_details.innerHTML = 'Then sccroll over the stacked bar to reveal details about the sub-taxes'
-        sub_data_details.innerHTML = legend_text.innerHTML
+    const list = document.getElementById('sub-data-details-' + pie_num)
+    const side = pie_num === 1 ? 'left' : 'right'
+    const vanilla_svg = document.getElementById('sub-data-svg-' + pie_num)
+    let index;
+
+    if (!tax_type || tax_type === "Sales and Gross Receipts Taxes") {
+        tax_type = 'Sales Taxes'
+        index = LABELS.indexOf(tax_type)
+        percent = document.getElementById(side + `-box-` + index).innerHTML
+        percent = parseFloat(percent.slice(0, -1))
     }
+
+    index = LABELS.indexOf(tax_type)
+    sub_data_details.innerHTML = `${tax_type}`
+    relative_percent_details.innerHTML = `Percent of total budget: ${percentify(percent)}`
+    overall_percent_details.innerHTML = 'Scroll over side bar to see sub tax data for this category'
+    list.style.background = CIRCLE_COLORS[index]
     // vanilla_svg.appendChild(vanilla_tooltip)
     
     vanilla_svg.addEventListener('mouseover', (e) => {
+        index = LABELS.indexOf(tax_type)
         const split_id  = e.target.id.split('-')
         const legend_text = document.getElementById(`legend-text-${split_id[1]}-${split_id[2]}`)
-        debugger
-        if (!tax_type || tax_type === "Sales and Gross Receipts Taxes") {
-            tax_type = 'Sales Taxes'
-        }
-
         // const legend_item = document.getElementById(`legend-item-${split_id[1]}-${split_id[2]}`)
-        const side = pie_num === 1 ? 'left' : 'right'
-        const index = LABELS.indexOf(tax_type)
         const box_data = document.getElementById(side + `-box-` + index).innerHTML
-
+        
         let relative_percent = (e.target.height.baseVal.value / height) * 100
         relative_percent = Math.round(100 * relative_percent) / 100
         
@@ -194,29 +193,14 @@ export const tooltipCreator = (pie_num, tax_type) => {
         // legend_item.classList.remove('hidden')
         overall_percent_details.innerHTML = `Percent of total budget: ` + overall_percent
         relative_percent_details.innerHTML = `Percent of category: ${relative_percent}`
-        sub_data_details.innerHTML = legend_text.innerHTML
+        if (legend_text) { sub_data_details.innerHTML = legend_text.innerHTML }
+        // debugger
+        // console.log('color: ' + CIRCLE_COLORS[index])
+        // list_color.style.border = `4px solid ${CIRCLE_COLORS[index]}`
         // vanilla_tooltip.classList.remove('hidden')
     })
-    // vanilla_svg.addEventListener('mousemove', e => {
-    //     // const xPos = e.pageX - (tooltipWidth / 2) // this[0] corresponds to mouse's x pos, and pushing it left by half of the tooltip's width ensure it is centered
-    //     // const yPos = e.pageY - 25 // puts the tooltip up a bit above the cursor
-    //     // vanilla_tooltip.attr("transform", "translate(" + xPos + ',' + yPos + ')')
-    //     // vanilla_tooltip.style.transform = `translate(${xPos}, ${yPos})`
-    //     // vanilla_tooltip.select('text').text(((e.target.height.baseVal.value - e.target.y.baseVal) / height * 100) + ` percent of ` + tax_type) // shows the percent  
-    //     // vanilla_tooltip.innerText = (((e.target.height.baseVal.value - e.target.y.baseVal.value) / height * 100) + ` percent of ` + tax_type) // shows the percent  
-    // })
     vanilla_svg.addEventListener('mouseout', e => {
-        // const split_id = e.target.id.split('-')
-        // const legend_item = document.getElementById(`legend-item-${split_id[1]}-${split_id[2]}`)
-        // const sub_data_details = document.getElementById(`data-details-type-${pie_num}`)
-        // const relative_percent_details = document.getElementById(`relative-percent-${pie_num}`)
-        // const overall_percent_details = document.getElementById(`overall-percent-${pie_num}`)
 
-        // legend_item.classList.add('hidden')
-        // sub_data_details.innerHTML = ''
-        // relative_percent_details.innerHTML = ''
-        // legend_text.classList.add('hidden')
-        // vanilla_tooltip.classList.add("hidden")
     })
 
 }
@@ -230,24 +214,6 @@ const legendCreator = (pie_num, keys, new_colors) => {
         .append('svg')
         .attr('class', 'sub-data-legend-svg-' + pie_num).attr('id', 'sub-data-legend-svg-' + pie_num)
         .append('g')
-    // .attr('transform', 'translate(' + (padding + 12) + ', 0)');
-
-    // legend.selectAll('rect')
-    //     .data(keys.reverse())
-    //     .enter()
-    //     .insert('rect').attr('id', (d, i) => {
-            
-    //         return `legend-item-${pie_num}-${id_count++}`
-    //     })
-    //     // .attr('x', 0).attr('y', function (d, i) {
-    //     //     return i * 18;
-    //     // })
-    //     .attr('x', 0).attr('y', '0')
-    //     .attr('width', 20).attr('height', 20)
-    //     .attr('fill', function (d, i) {
-    //         return new_colors(++color_count)
-    //     })
-        // .attr('class', 'hidden')
 
     id_count = 0
 

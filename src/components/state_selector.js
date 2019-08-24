@@ -33,7 +33,7 @@ export const state_selector = (pie_num) => {
             const svg = document.getElementById("svg-" + pie_num)
             svg.parentNode.removeChild(svg)
             PieChartGenerator(state, TOP_LEVEL, pie_num)
-            tooltipCreator(pie_num)
+            // tooltipCreator(pie_num)
         }
     }
     const state_list = document.createElement('ul')

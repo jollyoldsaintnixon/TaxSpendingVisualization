@@ -2,7 +2,6 @@
 
 export const budgetCircle = (total1, total2, update) => {
     // I got a lot of help from Ben Gao, an App Academy TA
-    debugger
     if (!total1 || !total2) {
         return
     }
@@ -22,7 +21,6 @@ export const budgetCircle = (total1, total2, update) => {
         .attr('class', 'circle-svg').attr('id', 'circle-svg-2');
 
     const data = [total1, total2]
-    debugger
 
     // const svg1 = circle_container.append('svg')
     //     .attr('width', width).attr('height', height)
@@ -36,7 +34,6 @@ export const budgetCircle = (total1, total2, update) => {
         .domain([0, (d3.max(data))])
         .range([1, height / 2])
 
-        debugger
     if (!update) {
         const circle1 = svg1.selectAll('.circles-1').data([total1])
         const circle2 = svg2.selectAll('.circles-2').data([total2])
@@ -57,7 +54,6 @@ export const budgetCircle = (total1, total2, update) => {
             .attr('cx', (d, i) => width / 2)
             .attr('fill', '#0a80ae')
     } else {
-        debugger
         d3.select('.circles-1')
         .data([total1])
         .transition().duration(500)

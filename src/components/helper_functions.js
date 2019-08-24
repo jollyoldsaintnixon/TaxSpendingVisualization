@@ -133,3 +133,10 @@ export const removeClass = className => {
     debugger
     remove_list.length ? remove_list.parentNode.removeChild(remove) : null
 }
+
+export const percentify = number => {
+    if (typeof number === String) {
+        number = parseFloat(number.split('$')[1])
+    }
+    return Math.floor(number * 100) / 100
+}
