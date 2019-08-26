@@ -68,28 +68,13 @@ export const updateSubData = (container_array, pie_num, ele) => {
         tax_stack_array.push(tax_stack)
         const layers = stack(tax_stack_array)
     
-        // const x = d3.scaleOrdinal()
-        //     .domain(layers[0].map(d => d.x))
-        //     // .range([10, width], 0)  // may be a quicker way to do this as there is only one bar
-        //     .range([width])
         const xScale = d3.scaleLinear()
             .domain([0, 1])
             .range([0, width])
-    
-        // const colors = d3.scaleLinear()
-        //     .domain([1, 10])
-        //     .range(["red", "blue"])
 
         const new_colors = d3.scaleLinear().domain([0, keys.length])
             .range(["white", color_string])
-        
-        // const colors = [color_string]
-        // const decrement = 100 / keys.length
-        // let next_color = LightenDarkenColor(color_string, decrement)
-        // while (colors.length < keys.length) {
-        //     colors.push(next_color)
-        //     next_color = LightenDarkenColor(next_color, decrement)
-        // }    
+
         const yScale = d3.scaleLinear()
             .domain([0, d3.sum(Object.values(tax_stack))])  // the increment up to the total
             // .range([height, 0])
@@ -99,10 +84,6 @@ export const updateSubData = (container_array, pie_num, ele) => {
             .data(layers).enter()  // now there will be a g for every bar within the graph.
             .append("g")
             .attr("class", "sub-taxes-" + pie_num)
-            
-        // .attr('fill', d => {
-            
-        //     return colors(d)})
     
         const rect = g.selectAll("rect")  // making each obj of the correspond to a rect within the g
             .data(layer => layer); // pulling out each individual obj
@@ -129,8 +110,10 @@ export const updateSubData = (container_array, pie_num, ele) => {
             .attr('fill', (d, i) => {
                 return new_colors(++color_count)
             }) 
-
-        tooltipCreator(pie_num, tax_type)
+        
+        const percent = ele ? ele.data.percent : null
+        setTimeout(() => {tooltipCreator(pie_num, tax_type, percent)}, 0)
+        // tooltipCreator(pie_num, tax_type)
 
     legendCreator(pie_num, keys, new_colors)
     // subDataLegend(new_colors, )
@@ -155,6 +138,7 @@ const colorChooser = (tax_type) => {
 }
 
 export const tooltipCreator = (pie_num, tax_type, percent) => {
+    
     const sub_data_details = document.getElementById(`data-details-type-${pie_num}`)
     const relative_percent_details = document.getElementById(`relative-percent-${pie_num}`)
     const overall_percent_details = document.getElementById(`overall-percent-${pie_num}`)
@@ -169,7 +153,7 @@ export const tooltipCreator = (pie_num, tax_type, percent) => {
         percent = document.getElementById(side + `-box-` + index).innerHTML
         percent = parseFloat(percent.slice(0, -1))
     }
-
+    
     index = LABELS.indexOf(tax_type)
     sub_data_details.innerHTML = `${tax_type}`
     relative_percent_details.innerHTML = `Percent of total budget: ${percentify(percent)}`

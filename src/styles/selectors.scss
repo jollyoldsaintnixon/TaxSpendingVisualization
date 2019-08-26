@@ -92,22 +92,26 @@ $zero: lighten($four, 60%);
 .master-list {
     position: absolute;
     z-index: 3;
-    top: 357px;
-    left: 330px;
+    top: 386px;
+    left: 351px;
     display: flex;
+    width: fit-content;
 }
 
-.master-list li {
-    margin: 10px 15px;
-    font-family: var(--sans)
+.master-list  {
+    // margin: 10px 15px; *
+    li {
+        font-family: var(--sans);
+        text-align: center;
+    }
+    ul {
+        color: white;
+        width: fit-content;
+    }
 }
 
-.text-list {
-
-}
 
 .text-box {
-    text-align: center;
     display: block;
     width: 145px;
     height: 30px;
@@ -117,22 +121,30 @@ $zero: lighten($four, 60%);
 }
 
 .left-list li {
-    text-align: right;
-    margin-right: -5px;
-      font-size: 1.2em;
-  font-weight: bolder;
+    // text-align: center;
+    // margin-right: -5px; *
+    font-size: 1.2em;
+    font-weight: bolder;
+    width: 75px;
+    padding: 3px;
+    padding-left: 5px;
+    margin-left: -15px;
 }
 
 .right-list li {
-    margin-left: -5px;
+    // margin-left: -5px; *
+    // text-align: left;
       font-size: 1.2em;
   font-weight: bolder;
+  width: 75px;
+  padding: 3px;
+  padding-right: 5px;
 }
 
 .box {
     font-family: var(--serif);
     width: 70px;
     height: 30px;
-    margin: 0 15px;
+    margin: 0 15px; 
 }
 

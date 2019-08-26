@@ -69,6 +69,7 @@ export function PieChartGenerator(state, tax_type, pie_num, csv = "./src/assets/
         let income_taxes = []
         let other_taxes = []
         let property_taxes = []
+        // let state_budgets = {}
         // let sales_tax_obj = { tax_group: LABELS[4] }
         // parse the csv
         data.forEach((d, i) => {
@@ -153,7 +154,7 @@ export function PieChartGenerator(state, tax_type, pie_num, csv = "./src/assets/
             .style("fill", d => colors(d.data.key))
             .transition()
             .ease(d3.easeLinear)
-            .duration(750)
+            .duration(500)
             .attrTween('d', pieTween);
         
         // path.on("mouseover", (d, i) => {  // why doesn't this work?
