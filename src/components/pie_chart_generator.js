@@ -152,7 +152,8 @@ export function PieChartGenerator(state, tax_type, pie_num, csv = "./src/assets/
         const path = g.append("path")
             .attr("d", arc)
             .style("fill", d => colors(d.data.key))
-            .transition()
+        
+        path.transition()
             .ease(d3.easeLinear)
             .duration(500)
             .attrTween('d', pieTween);
@@ -173,12 +174,15 @@ export function PieChartGenerator(state, tax_type, pie_num, csv = "./src/assets/
         }
         // event handlers
         const sub_data_svg = d3.select('#sub-data-g-' + pie_num).selectAll('.sub-data-' + pie_num)
-        g.on("mouseover", (d, i) => {  
+        path.on("mouseover", (d, i) => {  
             console.log(d)
-            d3.select(this).transition()
-                .duration('50')
+            const path = d3.select(this)
+            debugger
+            path.transition()
+                .duration('500')
                 .attr('opacity', '.85')
                 .attr("cursor", 'pointer')
+                debugger
         })
         .on("mouseout", ele => {
             // h1.text(state + "'s tax revenue for 2018 was $" + d3.format(',')(TOTAL))

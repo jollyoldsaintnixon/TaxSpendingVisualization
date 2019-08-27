@@ -89,3 +89,8 @@ body {
 .hidden {
     display: none;
 }
+
+.arc:hover {
+    cursor: pointer;
+    border: 3px solid red;
+}
