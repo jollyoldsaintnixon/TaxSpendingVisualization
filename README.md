@@ -55,5 +55,7 @@ Phase 3) (2-3 days)
   Revenue 2018: https://www.census.gov/data/tables/2018/econ/stc/2018-annual.html
   TA Ben spent hours helping me figure out d3
 
+  favicon was created at https://www.favicon.cc/
+
   angellist icon: https://www.google.com/url?sa=i&source=images&cd=&cad=rja&uact=8&ved=2ahUKEwj71suu16DkAhXikOAKHZNLC3YQjRx6BAgBEAQ&url=https%3A%2F%2Ficonscout.com%2Ficon%2Fangellist&psig=AOvVaw3WE7ST1Fj1zuaQk_OAPkm-&ust=1566913794206020
 
