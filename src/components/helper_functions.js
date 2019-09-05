@@ -130,7 +130,7 @@ export const remove = (id) => {
 
 export const removeClass = className => {
     const remove_list = document.getElementsByClassName(className)
-    debugger
+    
     remove_list.length ? remove_list.parentNode.removeChild(remove) : null
 }
 

@@ -178,7 +178,7 @@ export const tooltipCreator = (pie_num, tax_type, percent) => {
         overall_percent_details.innerHTML = `Percent of total budget: ` + overall_percent
         relative_percent_details.innerHTML = `Percent of category: ${relative_percent}`
         if (legend_text) { sub_data_details.innerHTML = legend_text.innerHTML }
-        // debugger
+        // 
         // console.log('color: ' + CIRCLE_COLORS[index])
         // list_color.style.border = `4px solid ${CIRCLE_COLORS[index]}`
         // vanilla_tooltip.classList.remove('hidden')

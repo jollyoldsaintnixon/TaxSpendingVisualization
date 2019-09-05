@@ -177,12 +177,12 @@ export function PieChartGenerator(state, tax_type, pie_num, csv = "./src/assets/
         path.on("mouseover", (d, i) => {  
             console.log(d)
             const path = d3.select(this)
-            debugger
+            
             path.transition()
                 .duration('500')
                 .attr('opacity', '.85')
                 .attr("cursor", 'pointer')
-                debugger
+                
         })
         .on("mouseout", ele => {
             // h1.text(state + "'s tax revenue for 2018 was $" + d3.format(',')(TOTAL))

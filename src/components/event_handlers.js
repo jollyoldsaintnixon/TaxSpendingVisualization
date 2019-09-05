@@ -6,7 +6,7 @@
 // export const subData = (container_array, pie_num, color_string = "#3F6D2A") => {
 //     // a lot of this code was learned from Michael Stanaland's "Stacked bar chart with tooltips" tutorial at http://bl.ocks.org/mstanaland/6100713
 //     return (ele) => {
-//         debugger
+//         
 //         const tax_type = ele.data.key
 
 //         const sub_array = subArrayLocator(tax_type, container_array)
@@ -78,7 +78,7 @@
 //             .data(layers).enter()  // now there will be a g for every bar within the graph.
 //             .append("g").attr("class", "sub-taxes")  
 //             // .attr('fill', d => {
-//             //     // debugger
+//             //     // 
 //             //     return colors(d)})
             
 //         const rect = g.selectAll("rect")  // making each obj of the correspond to a rect within the g
@@ -86,14 +86,14 @@
 //             .enter().append("rect")
 //             .attr('x', d => xScale(0))  // passing each obj's x value to the d3 x function defined above
 //             .attr('y', layer => {
-//                 // debugger
+//                 // 
 //                 return height - yScale(layer[1])})  // y0 is the height where each segment in the stack starts
 //             .attr('width', xScale(1))  // probably can hard code, since only one bar
 //             .attr('height', bar => {
-//                 // debugger
+//                 // 
 //                 return yScale(bar[1] - bar[0])})
 //             .attr('fill', d => {
-//                 debugger
+//                 
 //                 return colors.pop()
 //             })  // height is set to the starting point plus the height, and all that subtracted from the starting point due to y values begining at top of screen
 //         //     .on('mouseover', () => tooltip.style("display", true))  // want the info box to switch between visible and inivis based on mouseover
