@@ -4,6 +4,7 @@
 @import './totals.scss';
 @import './footer.scss';
 @import './budget_circle.scss';
+@import './modal.scss';
 
 $four: #064B66;
 $five: darken($four, 20%);
@@ -69,7 +70,7 @@ main {
 
 body {
     background: $four;
-    transform: scale(0.6);
+
 }
 
 .label {
