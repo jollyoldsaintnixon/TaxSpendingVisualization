@@ -20,7 +20,10 @@ document.addEventListener("DOMContentLoaded", () => {
 
     selector_container.appendChild(select_1)
     selector_container.appendChild(select_2)
-    root.appendChild(ul)
+    // making this to transform everything down while mainting main's size
+    // const overall = document.createElement('section')
+    // overall.classList.add('overall')
+    // overall.appendChild(ul)
 
     PieChartGenerator("Alabama", TOP_LEVEL, 1, "./src/assets/data/FY2018-STC-Detailed-Table.csv", false)
     PieChartGenerator("Wyoming", TOP_LEVEL, 2, "./src/assets/data/FY2018-STC-Detailed-Table.csv", false)
@@ -28,6 +31,9 @@ document.addEventListener("DOMContentLoaded", () => {
     // tooltipCreator(2)
     // Make the modal
     const modal = wrapper()
+    const body = document.getElementsByTagName('body')
+
+    root.appendChild(ul)
     root.appendChild(modal)
     
 })

@@ -10,8 +10,8 @@ export const budgetCircle = (total1, total2, update) => {
 
     const circle_container = d3.select('#budget-circle-container')
 
-    const height = 300
-    const width = 500
+    const height = 200
+    const width = 797
     
     const svg1 = document.getElementById('circle-svg-1') ? d3.select('#circle-svg-1') : circle_container.append('svg')
         .attr('width', width).attr('height', height)

@@ -22,7 +22,7 @@ function modal() {
         title.innerText = 'How to use this app'
 
         const sub_title = document.createElement('h2')
-        sub_title.innerText = 'Select two states to compare from the blue boxes in the top corners of the screen'
+        sub_title.innerText = 'Select two states to compare from the blue circles in the top corners of the screen'
 
         const pie_chart_text = document.createElement('p')
         pie_chart_text.innerText = 'Half of a pie chart will be rendered for each state.  ' +

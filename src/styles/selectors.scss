@@ -12,10 +12,12 @@ $zero: lighten($four, 60%);
     color: white;
     font-family: var(--sans);
     position: relative;
+    bottom: 62px;
     font-size: 2em;
     border-bottom: 1px solid transparent;
     width: 100%;
-    padding: 0 10px;
+    padding: 0 18px;
+
 }
 
 [class*='select-'] {
@@ -25,15 +27,16 @@ $zero: lighten($four, 60%);
     margin: 0 20px;
     span {
         margin: 0;
-        padding: 10px;
-        background: $three;
-        border-radius: 8%;
+        // padding: 10px;
+        // background: $three;
+        // border-radius: 8%;
+        border-bottom: 3px solid transparent;
     }
     span:hover {
         cursor: pointer;
-        color: $four;
-        background: $two;
-        border-bottom: 1px solid $four;
+        // color: $four;
+        // background: $two;
+        border-bottom: 3px solid white;
     }
 }
 
@@ -54,7 +57,7 @@ $zero: lighten($four, 60%);
 [class*='state-list'] {
     position: absolute;
     background: purple;
-    top: 57px;
+    top: 40px;
     height: 400px;
     overflow-y: auto;
     border: 1px solid $four;

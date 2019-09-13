@@ -33,9 +33,11 @@ $zero: lighten($four, 60%);
     font-size: 3em;
     color: white;
     margin: 20px;
+    
 }
 
 main {
+    transform: scale(.92);
     display: flex;
     margin: 0 auto;
     background: $one;
@@ -44,6 +46,10 @@ main {
     flex-direction: column;
     align-items: center;
     min-width: 1000px;
+}
+
+.overall {
+    transform: scale(.7);
 }
 
 .pie-container {
@@ -69,8 +75,9 @@ main {
 }
 
 body {
-    background: $four;
-
+    background: $one;
+    transform: scale(1)
+    
 }
 
 .label {

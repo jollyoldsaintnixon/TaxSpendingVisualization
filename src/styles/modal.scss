@@ -1,15 +1,18 @@
 .modal-wrapper {
-  position: fixed;
+  position: absolute;
   background: rgba(0, 0, 0, 0.5);
-  top: 0;
-  bottom: 0;
-  right: 0;
-  left: 0;
+  height: 100%;
+//   top: 0;
+//   bottom: 0;
+//   right: 0;
+//   left: 0;
   z-index: 30;
   display: flex;
   justify-content: center;
-  align-items: center;
+  align-items: flex-start;
   min-width: 1270px;
+    margin-top: -8%;
+  margin-bottom: -8%;
 }
 
 .modal {
@@ -19,9 +22,10 @@
   flex-direction: column;
   border: 2px solid white;
   padding: 10px;
-  background: rgba(0, 0, 0, 0.5);
+  background: rgba(0, 0, 0, 0.8);
   align-items: center;
   font-family: var(--sans);
+  margin-top: 160px;
   h1 {
     font-size: 2em;
     border-bottom: 2px solid white;

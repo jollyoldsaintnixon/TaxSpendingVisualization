@@ -5,9 +5,13 @@
 
 footer {
     font-family: var(--sans);
-    background: purple;
+      margin-top: -85px;
     a {
         margin: 5px 20px;
+        opacity: 0.6;
+        &:hover {
+            opacity: 1;
+        }
     }
 }
 

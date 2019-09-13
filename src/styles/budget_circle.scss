@@ -1,6 +1,10 @@
 .budget-circle-container {
+  position: absolute;
       margin-top: -140px;
   margin-bottom: 20px;
+    top: 99px;
+    width: 160%;
+    // align-self: center;
   circle {
     //   fill: var(--three);
   }
