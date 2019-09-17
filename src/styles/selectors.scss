@@ -40,31 +40,23 @@ $zero: lighten($four, 60%);
     }
 }
 
-.select-2 {
-    span {
-        position: relative;
-        left: 15px;
-    }
-}
-
-.select-1 {
-    span {
-        position: relative;
-        right: 15px;
-    }
-}
 
 [class*='select-wrapper-'] {
     display: flex;
     flex-direction: column;
+    align-items: center;
+    width: 226px;
+    justify-content: center;
+    position: relative;
+  
 }
 
 .select-wrapper-2 {
-    align-items: flex-end
+    left: 45px;
 }
 
 .select-wrapper-1 {
-    align-items: flex-start
+    right: 45px;
 }
 
 [class*='state-list'] {
