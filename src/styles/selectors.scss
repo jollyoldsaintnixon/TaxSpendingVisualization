@@ -40,6 +40,19 @@ $zero: lighten($four, 60%);
     }
 }
 
+.select-2 {
+    span {
+        position: relative;
+        left: 15px;
+    }
+}
+
+.select-1 {
+    span {
+        position: relative;
+        right: 15px;
+    }
+}
 
 [class*='select-wrapper-'] {
     display: flex;
@@ -95,7 +108,7 @@ $zero: lighten($four, 60%);
 .master-list {
     position: absolute;
     z-index: 3;
-    top: 386px;
+    top: 363px;
     left: 351px;
     display: flex;
     width: fit-content;
