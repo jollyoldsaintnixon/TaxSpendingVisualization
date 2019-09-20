@@ -9,17 +9,17 @@ TODO
 
 # TaxSpendingVisualization
 
-  A breakdown of how every $100 of tax revenue is spent by federal, state, and local governments
+  A side-by-side comparator of state-level tax revenue.  
 
 ## Background and Overview
 
-  This project will allow the user to visualize via JavaScript compare how tax money is spent at the state level.  This is information is pulled from US census data at https://www.census.gov/data/tables/2018/econ/stc/2018-annual.html.
+  This project will allow the user to visualize via JavaScript compare how tax money is raised at the state level.  This is information is pulled from US census data at https://www.census.gov/data/tables/2018/econ/stc/2018-annual.html.
 
 ## Funcionality and MVP
 
   In TaxSpendingVisualization, users will be able to:
     - [] select states to compare
-    - [] select tax year
+    - [] visualize total revenue comparison
     - [] breakdown primary divisions into subdivisions
   This app will also:
     - [] allow comparison of tax spending breakdown over different years
@@ -48,7 +48,7 @@ Phase 3) (2-3 days)
 
 ## Bonus Feature
   
-  At least 3 states must be implemented in order for the beta to be released.  Ability to compare sub-category tax data will be added as a bonus.  Any other state, territory, or city will follow in the bonus features.
+  At least 3 states must be implemented in order for the beta to be released.  Ability to compare sub-category tax data will be added as a bonus.  Comparison across different years will be a bonus feature.
 
 ### Resources
 
