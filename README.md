@@ -1,11 +1,6 @@
 TODO
 * Pick decent color scheme
-* Get Sass working
-* Get rid of html select button in favor of pure JS dropdown
-* Add different sized circles representing relative size of budget
-** Normalized to larger of two budgets
 * Add different year options
-* Add hover effects to pie chart areas
 
 # TaxSpendingVisualization
 
